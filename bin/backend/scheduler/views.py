@@ -7,6 +7,9 @@ from django.views.generic import (
     UpdateView,
     DeleteView
 )
+from django.urls import reverse
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 
 def criteria(request):
     return render(request, 'scheduler/index.html')
@@ -20,7 +23,12 @@ class PostListView(ListView):
     context_object_name = 'criterias'
     template_name = 'scheduler/test.html'
 
-class PostCreateView(CreateView):
+class PostCreateView(CreateView, SuccessMessageMixin):
     model = Criteria
     # content = {'criterias': Criteria.objects.all()}
     fields = ['RotationType', 'TypeAmount']
+    success_message = "Add new criteria successfully!"
+    def get_success_url(self):
+        messages.success(self.request, 'Add new criteria successfully!')
+        return reverse('criteria-list')
+

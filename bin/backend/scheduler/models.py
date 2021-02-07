@@ -11,5 +11,6 @@ class Criteria(models.Model):
     def __str__(self):
         return self.RotationType
 
-    def get_absolute_url(self):
-        return reverse('criteria-list', kwargs={})
+    # def get_absolute_url(self):
+    #
+    #     return reverse('criteria-list', kwargs={})
