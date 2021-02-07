@@ -7,8 +7,8 @@ class Criteria(models.Model):
     RotationType = models.CharField(max_length=120)
     TypeAmount = models.PositiveIntegerField()
 
-    def _str_(self):
-        return "RotationType: " + self.RotationType + " TypeAmount: " + self.TypeAmount
+    def __str__(self):
+        return self.RotationType
 
     def get_RotationType(self):
         return self.RotationType
