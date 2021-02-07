@@ -129,7 +129,7 @@ table.table td .add {
                         <td>{{criteria.RotationType}}</td>
                         <td>{{criteria.TypeAmount}}</td>
                         <td>
-                            <a class="edit" title="Edit" href="{% url criteria-update %}"><i class="material-icons">&#xE254;</i></a>
+                            <a class="edit" title="Edit" href="{% url 'criteria-update' criteria.id%}"><i class="material-icons">&#xE254;</i></a>
                         </td>
                     </tr>
                 {% endfor %}

@@ -32,6 +32,10 @@ class V2CreateView(CreateView, SuccessMessageMixin):
         messages.success(self.request, 'Add new criteria successfully!')
         return reverse('criteria-list')
 
+class V2DetailView(DetailView):
+    model = Criteria
+    fields = ['RotationType', 'TypeAmount']
+
 class V2UpdateView(UpdateView):
     model = Criteria
     # content = {'criterias': Criteria.objects.all()}

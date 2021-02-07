@@ -13,5 +13,5 @@ urlpatterns = [
     path('', V2ListView.as_view(), name='criteria-list'),
     path('criteria/<int:pk>/', V2DetailView.as_view(), name='criteria-detail'),
     path('criteria/', V2CreateView.as_view(), name='criteria-create'),
-    path('criteria/<int:pk>/edit', V2UpdateView.as_view(), name='criteria-update'),
+    path('criteria/<int:pk>/edit/', V2UpdateView.as_view(), name='criteria-update'),
 ]
