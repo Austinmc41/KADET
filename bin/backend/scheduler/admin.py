@@ -4,9 +4,9 @@ from .models import Criteria
 # Register your models here.
 
 
-class SchedulerAdmin(admin.ModelAdmin):  # add this
-    list_display = ("RotationType", "TypeAmount")  # add this
+class SchedulerAdmin(admin.ModelAdmin):  
+    list_display = ("RotationType", "TypeAmount")  
 
 
 # Register your models here.
-admin.site.register(Criteria, SchedulerAdmin)  # add this
+admin.site.register(Criteria, SchedulerAdmin)  
