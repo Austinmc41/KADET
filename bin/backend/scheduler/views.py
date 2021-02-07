@@ -1,11 +1,26 @@
 from django.shortcuts import render
 from .models import Criteria
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView
+)
 
 def criteria(request):
-    return render(request, 'index.html')
+    return render(request, 'scheduler/index.html')
 
-def test(request):
-    content = {'criterias': Criteria.objects.all()}
-    return render(request, 'test.html', content)
+
 
 # Create your views here.
+class PostListView(ListView):
+    model = Criteria
+    # content = {'criterias': Criteria.objects.all()}
+    context_object_name = 'criterias'
+    template_name = 'scheduler/test.html'
+
+class PostCreateView(CreateView):
+    model = Criteria
+    # content = {'criterias': Criteria.objects.all()}
+    fields = ['RotationType', 'TypeAmount']

@@ -1,4 +1,5 @@
 from django.db import models
+from django.urls import reverse
 
 # Create your models here.
 
@@ -10,14 +11,5 @@ class Criteria(models.Model):
     def __str__(self):
         return self.RotationType
 
-    def get_RotationType(self):
-        return self.RotationType
-
-    def get_TypeAmount(self):
-        return self.TypeAmount
-
-    def set_RotationType(self, RotationType):
-        self.RotationType = RotationType
-
-    def set_TypeAmount(self, TypeAmount):
-        self.TypeAmount = TypeAmount
+    def get_absolute_url(self):
+        return reverse('criteria-list', kwargs={})
