@@ -17,18 +17,25 @@ def criteria(request):
 
 
 # Create your views here.
-class PostListView(ListView):
+class V2ListView(ListView):
     model = Criteria
     # content = {'criterias': Criteria.objects.all()}
     context_object_name = 'criterias'
     template_name = 'scheduler/test.html'
 
-class PostCreateView(CreateView, SuccessMessageMixin):
+class V2CreateView(CreateView, SuccessMessageMixin):
     model = Criteria
     # content = {'criterias': Criteria.objects.all()}
     fields = ['RotationType', 'TypeAmount']
-    success_message = "Add new criteria successfully!"
+    # success_message = "Add new criteria successfully!"
     def get_success_url(self):
         messages.success(self.request, 'Add new criteria successfully!')
         return reverse('criteria-list')
 
+class V2UpdateView(UpdateView):
+    model = Criteria
+    # content = {'criterias': Criteria.objects.all()}
+    fields = ['RotationType', 'TypeAmount']
+    def get_success_url(self):
+        messages.success(self.request, 'Edit criteria successfully!')
+        return reverse('criteria-list')

@@ -111,13 +111,16 @@ table.table td .add {
           {% endif %}
                 <div class="row">
                     <div class="col-sm-8"><h2>Rotation Block <b>Details</b></h2></div>
+                    <div class="col-sm-4">
+                        <a href="{% url 'criteria-create' %}" class="btn btn-info" role="button"><i class="fa fa-plus"></i>New Criteria</a>
+                    </div>
                 </div>
             </div>
             <table class="table table-bordered">
                 <thead>
                     <tr>
                         <th>Rotation Type</th>
-                        <th>Amount Required</th>
+                        <th>Amount</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -126,7 +129,7 @@ table.table td .add {
                         <td>{{criteria.RotationType}}</td>
                         <td>{{criteria.TypeAmount}}</td>
                         <td>
-                            <a class="edit" title="Edit" href=""><i class="material-icons">&#xE254;</i></a>
+                            <a class="edit" title="Edit" href="{% url criteria-update %}"><i class="material-icons">&#xE254;</i></a>
                         </td>
                     </tr>
                 {% endfor %}
