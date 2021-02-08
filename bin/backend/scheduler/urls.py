@@ -4,7 +4,8 @@ from .views import (
     V2ListView,
     V2CreateView,
     V2UpdateView,
-    V2DetailView
+    V2DetailView,
+    V2DeleteView
 )
 
 urlpatterns = [
@@ -14,4 +15,5 @@ urlpatterns = [
     path('criteria/<int:pk>/', V2DetailView.as_view(), name='criteria-detail'),
     path('criteria/', V2CreateView.as_view(), name='criteria-create'),
     path('criteria/<int:pk>/edit/', V2UpdateView.as_view(), name='criteria-update'),
+    path('post/<int:pk>/delete/', V2DeleteView.as_view(), name='criteria-delete'),
 ]

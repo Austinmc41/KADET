@@ -130,6 +130,7 @@ table.table td .add {
                         <td>{{criteria.TypeAmount}}</td>
                         <td>
                             <a class="edit" title="Edit" href="{% url 'criteria-update' criteria.id%}"><i class="material-icons">&#xE254;</i></a>
+                            <a class="delete" title="Delete" href="{% url 'criteria-delete' criteria.id%}" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
                         </td>
                     </tr>
                 {% endfor %}
