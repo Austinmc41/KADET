@@ -16,4 +16,7 @@ urlpatterns = [
     path('criteria/', V2CreateView.as_view(), name='criteria-create'),
     path('criteria/<int:pk>/edit/', V2UpdateView.as_view(), name='criteria-update'),
     path('post/<int:pk>/delete/', V2DeleteView.as_view(), name='criteria-delete'),
+    
+    path('', include('react-scheduler.urls'))
+    
 ]

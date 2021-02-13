@@ -1,5 +1,5 @@
 {
-  "name": "scheduler",
+  "name": "react-scheduler",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +15,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "webpack --mode development ./KADET/react-scheduler/src/components/index.jsx --output ./KADET/react-scheduler/static/frontend/main.js",
+    "build": "webpack --mode production ./KADET/react-scheduler/src/components/index.jsx --output ./KADET/react-scheduler/static/frontend/main.js"
   },
   "eslintConfig": {
     "extends": [
