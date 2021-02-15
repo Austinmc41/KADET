@@ -1,4 +1,5 @@
 from django.shortcuts import render
+"""
 from .models import Criteria
 from django.views.generic import (
     ListView,
@@ -58,3 +59,4 @@ class V2DeleteView(LoginRequiredMixin,DeleteView):
     redirect_field_name = 'redirect_to'
     model = Criteria
     success_url = '/scheduler/'
+"""

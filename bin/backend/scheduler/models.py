@@ -1,4 +1,5 @@
 from django.db import models
+"""
 from django.urls import reverse
 
 # Create your models here.
@@ -14,3 +15,4 @@ class Criteria(models.Model):
     # def get_absolute_url(self):
     #
     #     return reverse('criteria-list', kwargs={})
+"""

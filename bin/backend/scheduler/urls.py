@@ -1,4 +1,5 @@
 from django.urls import path
+"""
 from . import views
 from .views import (
     V2ListView,
@@ -17,3 +18,4 @@ urlpatterns = [
     path('criteria/<int:pk>/edit/', V2UpdateView.as_view(), name='criteria-update'),
     path('post/<int:pk>/delete/', V2DeleteView.as_view(), name='criteria-delete'),
 ]
+"""
