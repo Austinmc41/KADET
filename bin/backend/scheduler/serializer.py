@@ -1,7 +1,7 @@
 from rest_framework import serializers 
-from .models import *
+from scheduler.models import Criteria
   
-class ReactSerializer(serializers.ModelSerializer): 
+class CriteriaSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Criteria 
         fields = ['RotationType', 'TypeAmount']

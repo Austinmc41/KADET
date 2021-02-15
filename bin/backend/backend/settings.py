@@ -41,8 +41,6 @@ INSTALLED_APPS = [
     
     #added all of this because an article sai it'd be good to add this
     "rest_framework",
-    #"core",
-    #At the moment, if I uncomment "core", I can giga errors and the server crashes
     "corsheaders",
 ]
 

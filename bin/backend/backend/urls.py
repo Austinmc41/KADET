@@ -15,8 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
+from scheduler.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('scheduler/', include('scheduler.urls')),
+    # path('scheduler/', include('scheduler.urls')),
+    path('scheduler/', ReactView.as_view(), name="criteria"),
 ]

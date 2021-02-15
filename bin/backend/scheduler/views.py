@@ -1,3 +1,27 @@
+from django.shortcuts import render 
+from rest_framework.views import APIView 
+from scheduler.models import Criteria
+from rest_framework.response import Response 
+from scheduler.serializer import CriteriaSerializer
+# Create your views here. 
+  
+class ReactView(APIView): 
+    
+    serializer_class = CriteriaSerializer 
+  
+    def get(self, request): 
+        detail = [ {"criteria": detail.RotationType,"students": detail.TypeAmount}  
+        for detail in Criteria.objects.all()] 
+        return Response(detail) 
+  
+    def post(self, request): 
+  
+        serializer = CriteriaSerializer(data=request.data) 
+        if serializer.is_valid(raise_exception=True): 
+            serializer.save() 
+            return  Response(serializer.data) 
+
+"""
 from django.shortcuts import render
 from .models import Criteria
 from django.views.generic import (
@@ -83,3 +107,4 @@ class V2DeleteView(LoginRequiredMixin,DeleteView):
     redirect_field_name = 'redirect_to'
     model = Criteria
     success_url = '/scheduler/'
+"""
