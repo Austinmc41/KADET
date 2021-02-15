@@ -37,7 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "scheduler",
+    "scheduler", 
+    
+    #added all of this because an article sai it'd be good to add this
+    "rest_framework",
+    #"core",
+    #At the moment, if I uncomment "core", I can giga errors and the server crashes
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
@@ -48,7 +54,18 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    #added all of this because an article sai it'd be good to add this
+    "corsheaders.middleware.CorsMiddleware",
 ]
+
+#Feel free to change this, one article told me to set this to true, another told me to set it to false
+CORS_ORIGIN_ALLOW_ALL = True
+
+REST_FRAMEWORK = {
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny"
+    ]
+}
 
 ROOT_URLCONF = "backend.urls"
 

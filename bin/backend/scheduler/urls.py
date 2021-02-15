@@ -1,11 +1,14 @@
-from django.urls import path
+from django.urls import path, include
+from django.contrib import admin 
+from django.conf.urls import url
 from . import views
 from .views import (
     V2ListView,
     V2CreateView,
     V2UpdateView,
     V2DetailView,
-    V2DeleteView
+    V2DeleteView,
+    ReactView
 )
 
 urlpatterns = [
@@ -16,4 +19,8 @@ urlpatterns = [
     path('criteria/', V2CreateView.as_view(), name='criteria-create'),
     path('criteria/<int:pk>/edit/', V2UpdateView.as_view(), name='criteria-update'),
     path('post/<int:pk>/delete/', V2DeleteView.as_view(), name='criteria-delete'),
+    
+    path('admin/',admin.site.urls),
+    path('scheduler/', ReactView.as_view(), name="something"), 
+    #perhaps name should be something different
 ]

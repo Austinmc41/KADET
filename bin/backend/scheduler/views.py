@@ -12,11 +12,36 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+#IMPORTED NEW STUFF FROM ARTICLE
+from rest_framework.views import APIView 
+from rest_framework import status
+from rest_framework.response import Response 
+from .models import *
+from .serializer import *
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+#----------------------------
+
 def criteria(request):
     return render(request, 'scheduler/index.html')
 
-
-
+#don't fully understand views but trying to add stuff for the react frontend
+class ReactView(APIView):
+    serializer_class = ReactSerializer
+    
+    def get(self, request): 
+        TypeAmount = [ {"rotation": TypeAmount.RotationType,"type": TypeAmount.TypeAmount}  
+        for TypeAmount in React.objects.all()] 
+        return Response(TypeAmount)
+    
+    def post(self, request): 
+        serializer = ReactSerializer(data=request.data)
+        
+        if serializer.is_valid(raise_exception=True): 
+            serializer.save() 
+            return  Response(serializer.data) 
+    
+#-----------------------------
 
 class V2ListView(LoginRequiredMixin, ListView):
     login_url = '/admin/login/'
