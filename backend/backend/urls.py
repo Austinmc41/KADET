@@ -15,8 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     #path('scheduler/', include('scheduler.urls')),
+    path('criteria/', include('criteria.urls')),
 ]

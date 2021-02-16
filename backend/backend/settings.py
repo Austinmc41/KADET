@@ -37,12 +37,13 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "criteria",
-    "rest_framework",
-
+    "criteria", # added for this project
+    "rest_framework", # added for this project
+    "corsheaders", # added for this project
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware", # added for this project
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -52,6 +53,22 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
 
+
+CORS_ORIGIN_ALLOW_ALL = True # added for this project
+REST_FRAMEWORK = { # added for this project
+    "DEFAULT_PERMISSION_CLASSES": [
+        "rest_framework.permissions.AllowAny"
+    ]
+}
+"""
+# If True, all origins will be accepted (not use the whitelist below). Defaults to False.
+CORS_ORIGIN_ALLOW_ALL = False
+
+# List of origins that are authorized to make cross-site HTTP requests. Defaults to [].
+CORS_ORIGIN_WHITELIST = (
+    'http://localhost:8081',
+)
+"""
 ROOT_URLCONF = "backend.urls"
 
 TEMPLATES = [
