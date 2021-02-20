@@ -1,29 +1,29 @@
 import React, { Component } from "react";
 
-const todoItems = [
+const criteriaItems = [
   {
     id: 1,
-    title: "ipsum dolor",
-    description: "consectetur adipiscing elit",
-    completed: true,
+    RotationType: "ipsum dolor",
+    MinResident: 2,
+    MaxResident: 5,
   },
   {
     id: 2,
-    title: "sit amet",
-    description: "sed do eiusmod tempor incididunt",
-    completed: false,
+    RotationType: "sit amet",
+    MinResident: 3,
+    MaxResident: 5,
   },
   {
     id: 3,
-    title: "enim ad",
-    description: "quis nostrud exercitation ullamco",
-    completed: true,
+    RotationType: "enim ad",
+    MinResident: 4,
+    MaxResident: 5,
   },
   {
     id: 4,
-    title: "minim veniam",
-    description: "laboris nisi ut aliquip ex ea commodo",
-    completed: false,
+    RotationType: "minim veniam",
+    MinResident: 5,
+    MaxResident: 5,
   },
 ];
 
@@ -31,43 +31,12 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      viewCompleted: false,
-      todoList: todoItems,
+      criteriaList: criteriaItems,
     };
   }
 
-  displayCompleted = (status) => {
-    if (status) {
-      return this.setState({ viewCompleted: true });
-    }
-
-    return this.setState({ viewCompleted: false });
-  };
-
-  renderTabList = () => {
-    return (
-      <div className="nav nav-tabs">
-        <span
-          className={this.state.viewCompleted ? "nav-link active" : "nav-link"}
-          onClick={() => this.displayCompleted(true)}
-        >
-          Complete
-        </span>
-        <span
-          className={this.state.viewCompleted ? "nav-link" : "nav-link active"}
-          onClick={() => this.displayCompleted(false)}
-        >
-          Incomplete
-        </span>
-      </div>
-    );
-  };
-
-  renderItems = () => {
-    const { viewCompleted } = this.state;
-    const newItems = this.state.todoList.filter(
-      (item) => item.completed == viewCompleted
-    );
+  renderCriteria = () => {
+    const newItems = this.state.criteriaList;
 
     return newItems.map((item) => (
       <li
@@ -75,12 +44,9 @@ class App extends Component {
         className="list-group-item d-flex justify-content-between align-items-center"
       >
         <span
-          className={`todo-title mr-2 ${
-            this.state.viewCompleted ? "completed-todo" : ""
-          }`}
-          title={item.description}
+          className={`mr-2`}
         >
-          {item.title}
+          {item.RotationType}
         </span>
         <span>
           <button
@@ -107,15 +73,13 @@ class App extends Component {
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="mb-4">
-                <button
-                  className="btn btn-primary"
-                >
+                <button className="btn btn-primary">
                   Add criteria
                 </button>
               </div>
 
               <ul className="list-group list-group-flush border-top-0">
-                {this.renderItems()}
+                {this.renderCriteria()}
               </ul>
             </div>
           </div>
