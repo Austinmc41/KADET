@@ -1,4 +1,6 @@
 import React, { Component } from "react";
+import Modal from "./components/criterion.modal";
+import axios from "axios";
 
 const criteriaItems = [
   {
@@ -31,9 +33,60 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      criteriaList: criteriaItems,
+      criteriaList: [],
+      modal: false,
+      activeItem: {
+        RotationType: "",
+        MinResident: 0,
+        MaxResident: 0,
+      },
     };
   }
+
+  componentDidMount() {
+    this.refreshList();
+  }
+
+  refreshList = () => {
+    axios
+      .get("/criteria/api/")
+      .then((res) => this.setState({ criteriaList: res.data }))
+      .catch((err) => console.log(err));
+  };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
+
+  handleSubmit = (item) => {
+    this.toggle();
+
+    if (item.id) {
+      axios
+        .put(`/criteria/api/${item.id}/`, item)
+        .then((res) => this.refreshList());
+      return;
+    }
+    axios
+      .post("/criteria/api/", item)
+      .then((res) => this.refreshList());
+  };
+
+  handleDelete = (item) => {
+    axios
+      .delete(`/criteria/api/${item.id}/`)
+      .then((res) => this.refreshList());
+  };
+
+  createItem = () => {
+    const item = { RotationType: "", MinResident: 0, MaxResident: 0 };
+
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
+
+  editItem = (item) => {
+    this.setState({ activeItem: item, modal: !this.state.modal });
+  };
 
   renderCriteria = () => {
     const newItems = this.state.criteriaList;
@@ -51,11 +104,13 @@ class App extends Component {
         <span>
           <button
             className="btn btn-secondary mr-2"
+            onClick={() => this.editItem(item)}
           >
             Edit
           </button>
           <button
             className="btn btn-danger"
+            onClick={() => this.handleDelete(item)}
           >
             Delete
           </button>
@@ -68,12 +123,15 @@ class App extends Component {
     return (
       <main className="container">
         <h1 className="text-uppercase text-center my-4">Resident Scheduler app</h1>
-        <p><h4 className="text-uppercase text-center my-4">(non-functional, just display)</h4></p>
+        <p><h4 className="text-uppercase text-center my-4">(almost functional)</h4></p>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="mb-4">
-                <button className="btn btn-primary">
+                <button 
+                  className="btn btn-primary"
+                  onClick={this.createItem}
+                >
                   Add criteria
                 </button>
               </div>
@@ -84,6 +142,13 @@ class App extends Component {
             </div>
           </div>
         </div>
+        {this.state.modal ? (
+          <Modal
+            activeItem={this.state.activeItem}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+        ) : null}
       </main>
     );
   }
