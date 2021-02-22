@@ -2,32 +2,8 @@ import React, { Component } from "react";
 import Modal from "./components/criterion.modal";
 import axios from "axios";
 
-const criteriaItems = [
-  {
-    id: 1,
-    RotationType: "ipsum dolor",
-    MinResident: 2,
-    MaxResident: 5,
-  },
-  {
-    id: 2,
-    RotationType: "sit amet",
-    MinResident: 3,
-    MaxResident: 5,
-  },
-  {
-    id: 3,
-    RotationType: "enim ad",
-    MinResident: 4,
-    MaxResident: 5,
-  },
-  {
-    id: 4,
-    RotationType: "minim veniam",
-    MinResident: 5,
-    MaxResident: 5,
-  },
-];
+axios.defaults.xsrfCookieName = 'csrftoken'
+axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
 class App extends Component {
   constructor(props) {
