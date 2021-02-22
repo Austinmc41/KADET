@@ -13,8 +13,6 @@ class App extends Component {
       modal: false,
       activeItem: {
         RotationType: "",
-        MinResident: 0,
-        MaxResident: 0,
       },
     };
   }
@@ -107,7 +105,7 @@ class App extends Component {
                   className="btn btn-primary"
                   onClick={this.createItem}
                 >
-                  Add criteria
+                  Add rotation
                 </button>
               </div>
 
