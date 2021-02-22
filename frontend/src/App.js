@@ -99,7 +99,6 @@ class App extends Component {
     return (
       <main className="container">
         <h1 className="text-uppercase text-center my-4">Resident Scheduler app</h1>
-        <p><h4 className="text-uppercase text-center my-4">(almost functional)</h4></p>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
