@@ -36,7 +36,7 @@ export default class CustomModal extends Component {
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Rotation Criteria</ModalHeader>
+        <ModalHeader toggle={toggle}>Rotation Block Details</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>

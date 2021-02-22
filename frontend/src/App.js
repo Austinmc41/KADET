@@ -107,7 +107,7 @@ class App extends Component {
                   className="btn btn-primary"
                   onClick={this.createItem}
                 >
-                  Add criteria
+                  Add rotation
                 </button>
               </div>
 
