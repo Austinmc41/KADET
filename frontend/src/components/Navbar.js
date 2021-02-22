@@ -13,6 +13,9 @@ const Navigation = (props) => {
                 <Nav className="mr-auto">
                     <Nav.Link href="/">Home</Nav.Link>
                     <Nav.Link href="/Scheduler">Criteria</Nav.Link>
+                    <Nav.Link href="/One">One</Nav.Link>
+                    <Nav.Link href="/Two">Two</Nav.Link>
+                    <Nav.Link href="/Three">Three</Nav.Link>
                 </Nav>
             </Navbar.Collapse>
         </Navbar>
