@@ -1,5 +1,8 @@
 import React from 'react';
 import Criteria from "./components/criterion.component";
+import One from "./components/one.component";
+import Two from "./components/two.component";
+import Three from "./components/three.component";
 
 class App extends React.Component {  
     render() {  
