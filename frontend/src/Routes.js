@@ -1,10 +1,11 @@
 import React, { Component } from "react";
 import { Router, Switch, Route } from "react-router-dom";
 
-import App from "./Scheduler/App";
+import Home from "./components/Home";
 import Criteria from "./components/criterion.component";
 import One from "./components/one";
-import Home from "./Home/Home";
+import Two from "./components/two";
+import Three from "./components/three";
 import history from './history';
 
 export default class Routes extends Component {
@@ -15,6 +16,8 @@ export default class Routes extends Component {
                     <Route path="/" exact component={Home} />
                     <Route path="/Rotations" component={Criteria} />
                     <Route path="/One" component={One} />
+                    <Route path="/Two" component={Two} />
+                    <Route path="/Three" component={Three} />
                 </Switch>
             </Router>
         )
