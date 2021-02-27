@@ -5,7 +5,7 @@ class Two extends React.Component {
             <div>
                 <div>
                     <div>
-                        <h1>Menu option two</h1>
+                    <h3 className="text-center">Menu option two</h3>
                     </div>
                 </div>
             </div>);

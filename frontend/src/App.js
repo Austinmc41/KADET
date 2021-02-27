@@ -1,18 +1,34 @@
 import React from 'react';
-import Criteria from "../components/criterion.component";
+import * as reactBootstrap from 'react-bootstrap';
+import Routes from './Routes';
 
-class App extends React.Component {
-    render() {
-        return (
-            <div>
-                <h1 className="text-uppercase text-center my-4">Resident Scheduler app</h1>
-                <div>
-                    <React.Fragment>
-                        <Criteria />
-                    </React.Fragment>
-                </div>
-            </div>
-        );
-    }
+const Navigation = (props) => {
+  console.log(props);
+  return (
+      <reactBootstrap.Navbar bg="primary" variant="dark">
+          <reactBootstrap.Navbar.Brand href="#home">Resident Scheduler</reactBootstrap.Navbar.Brand>
+          <reactBootstrap.Navbar.Toggle aria-controls="basic-navbar-nav" />
+          <reactBootstrap.Navbar.Collapse id="basic-navbar-nav">
+              <reactBootstrap.Nav className="mr-auto">
+                  <reactBootstrap.Nav.Link href="/">Home</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/Rotations">Criteria</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/One">One</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/Two">Two</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/Three">Three</reactBootstrap.Nav.Link>
+              </reactBootstrap.Nav>
+          </reactBootstrap.Navbar.Collapse>
+      </reactBootstrap.Navbar>
+  )
 }
+
+function App() {
+  return (
+    <div className="App">
+      <Navigation />
+      <h1 className="text-uppercase text-center my-4">Resident Scheduler app</h1>
+      <Routes />
+    </div>
+  );
+}
+
 export default App;
