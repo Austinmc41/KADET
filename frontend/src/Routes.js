@@ -6,6 +6,7 @@ import Criteria from "./components/criterion.component";
 import One from "./components/one";
 import Two from "./components/two";
 import Three from "./components/three";
+import NotFound from "./components/NotFound";
 import history from './history';
 
 export default class Routes extends Component {
@@ -18,6 +19,9 @@ export default class Routes extends Component {
                     <Route path="/One" component={One} />
                     <Route path="/Two" component={Two} />
                     <Route path="/Three" component={Three} />
+                    <Route>
+                        <NotFound />
+                    </Route>
                 </Switch>
             </Router>
         )

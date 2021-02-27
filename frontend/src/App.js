@@ -15,6 +15,7 @@ const Navigation = (props) => {
                   <reactBootstrap.Nav.Link href="/One">One</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Two">Two</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Three">Three</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/four">FAILURE-EXAMPLE</reactBootstrap.Nav.Link>
               </reactBootstrap.Nav>
           </reactBootstrap.Navbar.Collapse>
       </reactBootstrap.Navbar>
@@ -26,7 +27,7 @@ function App() {
     <div className="App">
       <Navigation />
       <h1 className="text-uppercase text-center my-4">Resident Scheduler app</h1>
-      <Routes />
+      <Routes /> 
     </div>
   );
 }
