@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import Settings
 
-# Register your models here.
+# added for this project
+@admin.register(Settings)
+class SchedulerAdmin(admin.ModelAdmin):  
+    list_display = ("description", "StartSchedule", "EndSchedule")

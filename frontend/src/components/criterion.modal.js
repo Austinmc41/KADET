@@ -1,4 +1,3 @@
-
 import React, { Component } from "react";
 import {
   Button,
@@ -62,7 +61,7 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
-              <Label for="criteria-EndRotation">Rotation start date</Label>
+              <Label for="criteria-EndRotation">Rotation end date</Label>
               <Input
                 type="date"
                 id="criteria-EndRotation"

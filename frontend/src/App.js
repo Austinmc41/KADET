@@ -11,6 +11,7 @@ const Navigation = (props) => {
           <reactBootstrap.Navbar.Collapse id="basic-navbar-nav">
               <reactBootstrap.Nav className="mr-auto">
                   <reactBootstrap.Nav.Link href="/">Home</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/Settings">Settings</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Rotations">Criteria</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/One">One</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Two">Two</reactBootstrap.Nav.Link>

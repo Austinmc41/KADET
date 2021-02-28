@@ -1,18 +1,20 @@
 import React, { Component } from "react";
-import Modal from "./criterion.modal";
+import Modal from "./settings.modal";
 import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-class Criteria extends Component {
+class Settings extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      criteriaList: [],
+      viewSet: false,
+      settingsList: [],
       modal: false,
       activeItem: {
-        RotationType: "",
+        description: "",
+        DatesSet: false,
       },
     };
   }
@@ -23,8 +25,8 @@ class Criteria extends Component {
 
   refreshList = () => {
     axios
-      .get("/criteria/api/")
-      .then((res) => this.setState({ criteriaList: res.data }))
+      .get("/settings/api/")
+      .then((res) => this.setState({ settingsList: res.data }))
       .catch((err) => console.log(err));
   };
 
@@ -37,23 +39,23 @@ class Criteria extends Component {
 
     if (item.id) {
       axios
-        .put(`/criteria/api/${item.id}/`, item)
+        .put(`/settings/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/criteria/api/", item)
+      .post("/settings/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/criteria/api/${item.id}/`)
+      .delete(`/settings/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 
   createItem = () => {
-    const item = { RotationType: "" };
+    const item = {description: "", DatesSet: false };
 
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
@@ -62,8 +64,16 @@ class Criteria extends Component {
     this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
-  renderCriteria = () => {
-    const newItems = this.state.criteriaList;
+  displaySet = (status) => {
+    if (status) {
+      return this.setState({ viewSet: true });
+    }
+
+    return this.setState({ viewSet: false });
+  };
+
+  renderSettings = () => {
+    const newItems = this.state.settingsList;
 
     return newItems.map((item) => (
       <li
@@ -73,7 +83,7 @@ class Criteria extends Component {
         <span
           className={`mr-2`}
         >
-          {item.RotationType}
+          {item.description}
         </span>
         <span>
           <button
@@ -82,12 +92,7 @@ class Criteria extends Component {
           >
             Edit
           </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => this.handleDelete(item)}
-          >
-            Delete
-          </button>
+
         </span>
       </li>
     ));
@@ -96,21 +101,16 @@ class Criteria extends Component {
   render() {
     return (
       <main className="container">
-        <h3 className="text-center">Rotation list</h3>
+        <h3 className="text-center">Current settings</h3>
         <div className="row">
           <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
               <div className="mb-4">
-                <button 
-                  className="btn btn-primary"
-                  onClick={this.createItem}
-                >
-                  Add rotation
-                </button>
+
               </div>
 
               <ul className="list-group list-group-flush border-top-0">
-                {this.renderCriteria()}
+                {this.renderSettings()}
               </ul>
             </div>
           </div>
@@ -127,4 +127,4 @@ class Criteria extends Component {
   }
 }
 
-export default Criteria;
+export default Settings;
