@@ -52,6 +52,26 @@ export default class CustomModal extends Component {
               />
             </FormGroup>
             <FormGroup>
+              <Label for="criteria-StartRotation">Rotation start date</Label>
+              <Input
+                type="date"
+                id="criteria-StartRotation"
+                name="StartRotation"
+                value={this.state.activeItem.StartRotation}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="criteria-EndRotation">Rotation start date</Label>
+              <Input
+                type="date"
+                id="criteria-EndRotation"
+                name="EndRotation"
+                value={this.state.activeItem.EndRotation}
+                onChange={this.handleChange}
+              />
+            </FormGroup>
+            <FormGroup>
               <Label for="criteria-minResident">Minumum residents needed</Label>
               <Input
                 type="number"
@@ -73,7 +93,6 @@ export default class CustomModal extends Component {
                 placeholder="Enter number of residents"
               />
             </FormGroup>
-
             <FormGroup>
               <Label for="criteria-ResidentYear">Number of years resident has studied</Label>
               <Input
@@ -90,7 +109,6 @@ export default class CustomModal extends Component {
                   <option>5</option>
               </Input>
             </FormGroup>
-
           </Form>
         </ModalBody>
         <ModalFooter>

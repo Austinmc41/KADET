@@ -10,6 +10,8 @@ class Criteria(models.Model):
         ('5', 'Fifth year'),
     )
     RotationType = models.CharField(max_length=120)
+    StartRotation = models.DateField()
+    EndRotation = models.DateField()
     MinResident = models.PositiveIntegerField()
     MaxResident = models.PositiveIntegerField()
     ResidentYear = models.CharField(

@@ -13,9 +13,6 @@ class Criteria extends Component {
       modal: false,
       activeItem: {
         RotationType: "",
-        MinResident: 0,
-        MaxResident: 0,
-        ResidentYear: "1",
       },
     };
   }
