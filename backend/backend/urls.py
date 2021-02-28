@@ -19,6 +19,6 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    #path('scheduler/', include('scheduler.urls')),
     path('criteria/', include('criteria.urls')),
+    path('settings/', include('settings.urls')),
 ]
