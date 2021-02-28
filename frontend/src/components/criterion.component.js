@@ -15,6 +15,7 @@ class Criteria extends Component {
         RotationType: "",
         MinResident: 0,
         MaxResident: 0,
+        ResidentYear: "1",
       },
     };
   }

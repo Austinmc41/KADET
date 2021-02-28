@@ -1,3 +1,4 @@
+
 import React, { Component } from "react";
 import {
   Button,
@@ -72,6 +73,24 @@ export default class CustomModal extends Component {
                 placeholder="Enter number of residents"
               />
             </FormGroup>
+
+            <FormGroup>
+              <Label for="criteria-ResidentYear">Number of years resident has studied</Label>
+              <Input
+                type="select"
+                id="criteria-ResidentYear"
+                name="ResidentYear"
+                value={this.state.activeItem.ResidentYear}
+                onChange={this.handleChange}>
+                  <option>0</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+              </Input>
+            </FormGroup>
+
           </Form>
         </ModalBody>
         <ModalFooter>
