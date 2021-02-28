@@ -4,4 +4,4 @@ from .models import Settings
 class SettingsSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Settings 
-        fields = ['description', 'StartSchedule', 'EndSchedule', 'DatesSet']
+        fields = ['id', 'description', 'StartSchedule', 'EndSchedule', 'DatesSet']
