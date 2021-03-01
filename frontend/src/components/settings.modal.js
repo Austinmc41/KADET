@@ -9,6 +9,8 @@ import {
   FormGroup,
   Input,
   Label,
+  Row,
+  Col
 } from "reactstrap";
 
 export default class CustomModal extends Component {
@@ -50,26 +52,32 @@ export default class CustomModal extends Component {
                 placeholder="Enter schedule description"
               />
             </FormGroup>
-            <FormGroup>
-              <Label for="settings-StartSchedule">Schedule start date</Label>
-              <Input
-                type="date"
-                id="settings-StartSchedule"
-                name="StartSchedule"
-                value={this.state.activeItem.StartSchedule}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="settings-EndSchedule">Schedule end date</Label>
-              <Input
-                type="date"
-                id="settings-EndSchedule"
-                name="EndSchedule"
-                value={this.state.activeItem.EndSchedule}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
+            <Row form>
+              <Col>
+                <FormGroup>
+                  <Label for="settings-StartSchedule">Schedule start date</Label>
+                  <Input
+                    type="date"
+                    id="settings-StartSchedule"
+                    name="StartSchedule"
+                    value={this.state.activeItem.StartSchedule}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="settings-EndSchedule">Schedule end date</Label>
+                  <Input
+                    type="date"
+                    id="settings-EndSchedule"
+                    name="EndSchedule"
+                    value={this.state.activeItem.EndSchedule}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
             <FormGroup check>
               <Label check>
                 <Input

@@ -9,6 +9,8 @@ import {
   FormGroup,
   Input,
   Label,
+  Row,
+  Col
 } from "reactstrap";
 
 export default class CustomModal extends Component {
@@ -50,48 +52,60 @@ export default class CustomModal extends Component {
                 placeholder="Enter rotation label"
               />
             </FormGroup>
-            <FormGroup>
-              <Label for="criteria-StartRotation">Rotation start date</Label>
-              <Input
-                type="date"
-                id="criteria-StartRotation"
-                name="StartRotation"
-                value={this.state.activeItem.StartRotation}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="criteria-EndRotation">Rotation end date</Label>
-              <Input
-                type="date"
-                id="criteria-EndRotation"
-                name="EndRotation"
-                value={this.state.activeItem.EndRotation}
-                onChange={this.handleChange}
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="criteria-minResident">Minumum residents needed</Label>
-              <Input
-                type="number"
-                id="criteria-minResident"
-                name="MinResident"
-                value={this.state.activeItem.MinResident}
-                onChange={this.handleChange}
-                placeholder="Enter number of residents"
-              />
-            </FormGroup>
-            <FormGroup>
-              <Label for="criteria-maxResident">Maximum residents needed</Label>
-              <Input
-                type="number"
-                id="criteria-maxResident"
-                name="MaxResident"
-                value={this.state.activeItem.MaxResident}
-                onChange={this.handleChange}
-                placeholder="Enter number of residents"
-              />
-            </FormGroup>
+            <Row form>
+              <Col>
+                <FormGroup>
+                  <Label for="criteria-StartRotation">Rotation start date</Label>
+                  <Input
+                    type="date"
+                    id="criteria-StartRotation"
+                    name="StartRotation"
+                    value={this.state.activeItem.StartRotation}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+                </Col>
+                <Col>
+                <FormGroup>
+                  <Label for="criteria-EndRotation">Rotation end date</Label>
+                  <Input
+                    type="date"
+                    id="criteria-EndRotation"
+                    name="EndRotation"
+                    value={this.state.activeItem.EndRotation}
+                    onChange={this.handleChange}
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
+            <Row form>
+              <Col>
+                <FormGroup>
+                  <Label for="criteria-minResident">Minumum residents needed</Label>
+                  <Input
+                    type="number"
+                    id="criteria-minResident"
+                    name="MinResident"
+                    value={this.state.activeItem.MinResident}
+                    onChange={this.handleChange}
+                    placeholder="Enter number of residents"
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="criteria-maxResident">Maximum residents needed</Label>
+                  <Input
+                    type="number"
+                    id="criteria-maxResident"
+                    name="MaxResident"
+                    value={this.state.activeItem.MaxResident}
+                    onChange={this.handleChange}
+                    placeholder="Enter number of residents"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
             <FormGroup>
               <Label for="criteria-ResidentYear">Number of years resident has studied</Label>
               <Input
