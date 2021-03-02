@@ -64,8 +64,8 @@ export default class CustomModal extends Component {
                     onChange={this.handleChange}
                   />
                 </FormGroup>
-                </Col>
-                <Col>
+              </Col>
+              <Col>
                 <FormGroup>
                   <Label for="criteria-EndRotation">Rotation end date</Label>
                   <Input

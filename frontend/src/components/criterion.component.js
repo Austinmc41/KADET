@@ -33,6 +33,7 @@ class Criteria extends Component {
   };
 
   handleSubmit = (item) => {
+    alert("Submitted successfully");
     this.toggle();
 
     if (item.id) {
