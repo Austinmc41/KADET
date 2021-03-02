@@ -33,8 +33,14 @@ class Criteria extends Component {
   };
 
   handleSubmit = (item) => {
-    alert("Submitted successfully");
-    this.toggle();
+/*
+if (something wrong) {
+  pop up some sort of error;
+  return; //thereby skipping the toggle and leaving the modal up
+}
+*/
+    alert("Submitted successfully"); // line of code added by Ed to illustrate the point where the modal closes
+    this.toggle(); // modal closes
 
     if (item.id) {
       axios
