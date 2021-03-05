@@ -3,5 +3,5 @@ from .models import Criteria
 
 # added for this project
 @admin.register(Criteria)
-class SchedulerAdmin(admin.ModelAdmin):  
+class CriteriaAdmin(admin.ModelAdmin):  
     list_display = ("RotationType", "MinResident", "MaxResident")

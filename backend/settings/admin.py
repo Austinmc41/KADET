@@ -3,5 +3,5 @@ from .models import Settings
 
 # added for this project
 @admin.register(Settings)
-class SchedulerAdmin(admin.ModelAdmin):  
+class SettingsrAdmin(admin.ModelAdmin):  
     list_display = ("description", "StartSchedule", "EndSchedule")

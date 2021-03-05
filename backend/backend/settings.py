@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "criteria", # added for this project
     "settings", # added for this project
+    "residentrequests", # added for this project
     "rest_framework", # added for this project
     "corsheaders", # added for this project
 ]
