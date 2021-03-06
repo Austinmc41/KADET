@@ -13,7 +13,7 @@ const Navigation = (props) => {
                   <reactBootstrap.Nav.Link href="/">Home</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Settings">Settings</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Rotations">Criteria</reactBootstrap.Nav.Link>
-                  <reactBootstrap.Nav.Link href="/One">One</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/view_requests">View Requests</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Two">Two</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Three">Three</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/four">FAILURE-EXAMPLE</reactBootstrap.Nav.Link>
