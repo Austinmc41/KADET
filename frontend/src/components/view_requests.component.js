@@ -39,15 +39,19 @@ class Requests extends Component {
             <Card>
                 <div className="col-md-8 col-sm-10 mx-auto p-0">
 
-                    <Accordion.Toggle as={Card.Header} eventKey="0">
-                    '"First Name" + "Lastname"''
+                    <Accordion.Toggle as={Card.Header} eventKey = {item.id}>
+                        {item.firstName} {item.lastName}
                     </Accordion.Toggle>
-                    <Accordion.Collapse eventKey="0">
+                    <Accordion.Collapse eventKey={item.id}>
                     <Card.Body>
-                    <p>Email Address:</p> {item.email}
-                    <p>Request 1:</p>
-                    <p>Request 2:</p>
-                    <p>Request 3:</p>
+                    <p>Email Address: {item.email} </p> 
+                        
+                    <p>Request 1:  {item.requestOne} </p>
+                       
+                    <p>Request 2: {item.requestTwo} </p>
+                        
+                    <p>Request 3: {item.requestThree} </p>
+                        
                     </Card.Body>
                     </Accordion.Collapse>
 
@@ -72,14 +76,6 @@ class Requests extends Component {
                 </ul>
 
 
-                <Card>
-                <Accordion.Toggle as={Card.Header} eventKey="1">
-                Click me!
-                </Accordion.Toggle>
-                <Accordion.Collapse eventKey="1">
-                <Card.Body>Hello! I'm another body</Card.Body>
-                </Accordion.Collapse>
-                </Card>
                 </Accordion>
                 </div>
                 </div>
