@@ -1,4 +1,7 @@
 import React, { Component } from "react";
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
 import Modal from "./criterion.modal";
 import axios from "axios";
 
@@ -73,30 +76,53 @@ if (something wrong) {
     const newItems = this.state.criteriaList;
 
     return newItems.map((item) => (
-      <li
-        key={item.id}
-        className="list-group-item d-flex justify-content-between align-items-center"
-      >
-        <span
-          className={`mr-2`}
-        >
-          {item.RotationType}
-        </span>
-        <span>
-          <button
-            className="btn btn-secondary mr-2"
-            onClick={() => this.editItem(item)}
-          >
-            Edit
-          </button>
-          <button
-            className="btn btn-danger"
-            onClick={() => this.handleDelete(item)}
-          >
-            Delete
-          </button>
-        </span>
-      </li>
+        <Accordion>
+          <Card>
+            <Card.Header className="d-flex justify-content-between align-items-center">
+              <div className={`mr-2`}>
+                <Accordion.Toggle as={Button} variant="link" eventKey={item.id}>
+                  +
+                </Accordion.Toggle>
+                {item.RotationType}
+              </div>
+              <div>
+                <button
+                  className="btn btn-secondary"
+                  onClick={() => this.editItem(item)}
+                >
+                  Edit
+                </button>
+                <button
+                  className="btn btn-danger"
+                  onClick={() => this.handleDelete(item)}
+                >
+                  Delete
+                </button>
+              </div>
+            </Card.Header>
+            <Accordion.Collapse eventKey={item.id}>
+                <Card.Body className="text-muted">
+                  <div  className="list-group border-0">
+                    <span className="list-group-item border-0">
+                      First day of rotation: {new Date(item.StartRotation).toUTCString().slice(0,16)}
+                    </span>
+                    <span className="list-group-item border-0">
+                      Last day of rotation: {new Date(item.EndRotation).toUTCString().slice(0,16)}
+                    </span>
+                    <span className="list-group-item border-0">
+                      Minimum required number of residents: {item.MinResident}
+                    </span>
+                    <span className="list-group-item border-0">
+                      Maximum required number of residents: {item.MaxResident}
+                    </span>
+                    <span className="list-group-item border-0">
+                      Number of years in residency: {item.ResidentYear}
+                    </span>
+                  </div>
+                </Card.Body>
+              </Accordion.Collapse>
+          </Card>
+        </Accordion>
     ));
   };
 
@@ -115,11 +141,9 @@ if (something wrong) {
                   Add rotation
                 </button>
               </div>
-
-              <ul className="list-group list-group-flush border-top-0">
                 {this.renderCriteria()}
-              </ul>
             </div>
+
           </div>
         </div>
         {this.state.modal ? (

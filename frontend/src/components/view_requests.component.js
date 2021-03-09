@@ -1,5 +1,5 @@
 import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card'
+import Card from 'react-bootstrap/Card';
 
 import React, { Component } from "react";
 import axios from "axios";
