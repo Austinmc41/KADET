@@ -80,7 +80,12 @@ if (something wrong) {
           <Card>
             <Card.Header className="d-flex justify-content-between align-items-center">
               <div className={`mr-2`}>
-                <Accordion.Toggle as={Button} variant="link" eventKey={item.id}>
+                <Accordion.Toggle
+                  as={Button}
+                  variant="link"
+                  eventKey={item.id}
+                  title="Click to view rotation details"
+                >
                   +
                 </Accordion.Toggle>
                 {item.RotationType}
