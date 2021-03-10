@@ -36,6 +36,11 @@ export default class CustomModal extends Component {
   render() {
     const { toggle, onSave } = this.props;
 
+    const checkInput = () => {
+      // may be possible to check form input here, before passing contral back from modal
+      onSave(this.state.activeItem)
+    };
+
     return (
       <Modal isOpen={true} toggle={toggle}>
         <ModalHeader toggle={toggle}>Rotation Block Details</ModalHeader>
@@ -127,7 +132,7 @@ export default class CustomModal extends Component {
         <ModalFooter>
           <Button
             color="success"
-            onClick={() => onSave(this.state.activeItem)}
+            onClick={checkInput}
           >
             Save
           </Button>
