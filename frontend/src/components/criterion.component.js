@@ -42,7 +42,7 @@ if (something wrong) {
   return; //thereby skipping the toggle and leaving the modal up
 }
 */
-    alert("Submitted successfully"); // line of code added by Ed to illustrate the point where the modal closes
+//    alert("Submitted successfully");  line of code added by Ed to illustrate the point where the modal closes
     this.toggle(); // modal closes
 
     if (item.id) {

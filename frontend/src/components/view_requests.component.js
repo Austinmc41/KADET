@@ -38,22 +38,23 @@ class Requests extends Component {
             
             <Card>
                 <div className="col-md-8 col-sm-10 mx-auto p-0">
-
-                    <Accordion.Toggle as={Card.Header} eventKey = {item.id}>
-                        {item.firstName} {item.lastName}
-                    </Accordion.Toggle>
-                    <Accordion.Collapse eventKey={item.id}>
-                    <Card.Body>
-                    <p>Email Address: {item.email} </p> 
-                        
-                    <p>Request 1:  {item.requestOne} </p>
-                       
-                    <p>Request 2: {item.requestTwo} </p>
-                        
-                    <p>Request 3: {item.requestThree} </p>
-                        
-                    </Card.Body>
-                    </Accordion.Collapse>
+                    <Accordion defaultActiveKey="">
+                        <Accordion.Toggle as={Card.Header} eventKey = {item.id}>
+                            {item.firstName} {item.lastName}
+                        </Accordion.Toggle>
+                            <Accordion.Collapse eventKey={item.id}>
+                            <Card.Body>
+                            <p>Email Address: {item.email} </p> 
+                                
+                            <p>Request 1:  {item.requestOne} </p>
+                            
+                            <p>Request 2: {item.requestTwo} </p>
+                                
+                            <p>Request 3: {item.requestThree} </p>
+                                
+                            </Card.Body>
+                        </Accordion.Collapse>
+                    </Accordion>
 
                 </div>
             
@@ -69,14 +70,14 @@ class Requests extends Component {
             <div className="row">
                 <div className="col-md-8 col-sm-10 mx-auto p-0">
                     <div className="card p-3">
-                <Accordion defaultActiveKey="">
+                
 
                 <ul className="list-group list-group-flush border-top-0">
                     {this.renderRequests()}
                 </ul>
 
 
-                </Accordion>
+                
                 </div>
                 </div>
             </div>
