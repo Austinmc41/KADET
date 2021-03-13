@@ -61,7 +61,7 @@ class Form extends Component {
     render() {
     return (
         <main className="container">
-            <h3 className="text-center">Test for DB access</h3>
+            <h3 className="text-center">Test for DB access</h3> {this.state.requestList.length} requests
             <div className="row">
                 <div className="col-md-8 col-sm-10 mx-auto p-0">
                     <div className="card p-3">
