@@ -22,4 +22,6 @@ urlpatterns = [
     path('criteria/', include('criteria.urls')),
     path('settings/', include('settings.urls')),
     path('requests/', include('residentrequests.urls')),
+    path('api/token/', include('useraccess.urls')),
+    path('api/user/', include('useraccess.urls')),
 ]
