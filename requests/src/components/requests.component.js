@@ -121,7 +121,7 @@ class Requests extends Component {
                   className="btn btn-primary"
                   onClick={this.createItem}
                 >
-                  Add rotation
+                  Add requests
                 </button>
               </div>
                 {this.renderRequests()}
