@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axiosInstance from "../axiosApi";
 import {
   Button,
   Form,
@@ -10,7 +11,10 @@ import {
 class Login extends Component {
   constructor(props) {
 	super(props);
-	this.state = {username: "", password: ""};
+	this.state = {
+	  username: "",
+	  password: ""
+	};
 
 	this.handleChange = this.handleChange.bind(this);
 	this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,8 +25,20 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
-    alert('A username and password was submitted: ' + this.state.username + " " + this.state.password);
+    //alert('A username and password was submitted: ' + this.state.username + " " + this.state.password);
     event.preventDefault();
+	try {
+	  const response = axiosInstance.post('/api/token/obtain/', {
+		username: this.state.username,
+		password: this.state.password
+	  });
+	  axiosInstance.defaults.headers['Authorization'] = "JWT " + response.data.access;
+	  localStorage.setItem('access_token', response.data.access);
+	  localStorage.setItem('refresh_token', response.data.refresh);
+	  return response;
+	  } catch (error) {
+		throw error;
+	  }
   }
 
   render() {

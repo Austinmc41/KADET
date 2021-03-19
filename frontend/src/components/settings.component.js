@@ -25,7 +25,7 @@ class Settings extends Component {
 
   refreshList = () => {
     axios
-      .get("/settings/api/")
+      .get("/api/settings/")
       .then((res) => this.setState({ settingsList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -39,18 +39,18 @@ class Settings extends Component {
 
     if (item.id) {
       axios
-        .put(`/settings/api/${item.id}/`, item)
+        .put(`/api/settings/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/settings/api/", item)
+      .post("/api/settings/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/settings/api/${item.id}/`)
+      .delete(`/api/settings/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

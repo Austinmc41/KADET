@@ -26,7 +26,7 @@ class Criteria extends Component {
 
   refreshList = () => {
     axios
-      .get("/criteria/api/")
+      .get("/api/criteria/")
       .then((res) => this.setState({ criteriaList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -47,18 +47,18 @@ if (something wrong) {
 
     if (item.id) {
       axios
-        .put(`/criteria/api/${item.id}/`, item)
+        .put(`/api/criteria/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/criteria/api/", item)
+      .post("/api/criteria/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/criteria/api/${item.id}/`)
+      .delete(`/api/criteria/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

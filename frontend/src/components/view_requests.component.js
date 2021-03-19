@@ -26,7 +26,7 @@ class Requests extends Component {
     
     refreshList = () => {
         axios
-          .get("/requests/api/")
+          .get("/api/requests/")
           .then((res) => this.setState({ requestList: res.data }))
           .catch((err) => console.log(err));
     };

@@ -19,9 +19,9 @@ from django.conf.urls import url
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('criteria/', include('criteria.urls')),
-    path('settings/', include('settings.urls')),
-    path('requests/', include('residentrequests.urls')),
+    path('api/criteria/', include('criteria.urls')),
+    path('api/settings/', include('settings.urls')),
+    path('api/requests/', include('residentrequests.urls')),
     path('api/token/', include('useraccess.urls')),
     path('api/user/', include('useraccess.urls')),
 ]
