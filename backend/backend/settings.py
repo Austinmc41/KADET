@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "criteria", # added for this project
     "settings", # added for this project
     "residentrequests", # added for this project
+    "useraccess", # added for this project
     "rest_framework", # added for this project
     "corsheaders", # added for this project
 ]
@@ -122,8 +123,9 @@ STATIC_URL = "/static/"
 
 # all below added for this project
 
+AUTH_USER_MODEL = "useraccess.SchedulerUser" # Custom user model
 
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'http://localhost:3001',
+#    'http://localhost:3001',
 ]

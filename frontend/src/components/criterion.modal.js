@@ -119,13 +119,34 @@ export default class CustomModal extends Component {
                 name="ResidentYear"
                 value={this.state.activeItem.ResidentYear}
                 onChange={this.handleChange}>
-                  <option>0</option>
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option>PGY1</option>
+                  <option>PGY2</option>
+                  <option>PGY3</option>
+                  <option>PGY4</option>
+                  <option>PGY5</option>
               </Input>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  name="Overnight"
+                  checked={this.state.activeItem.Overnight}
+                  onChange={this.handleChange}
+                />
+                Overnight rotation
+              </Label>
+            </FormGroup>
+            <FormGroup check>
+              <Label check>
+                <Input
+                  type="checkbox"
+                  name="Essential"
+                  checked={this.state.activeItem.Essential}
+                  onChange={this.handleChange}
+                />
+                Essential rotation
+              </Label>
             </FormGroup>
           </Form>
         </ModalBody>
