@@ -1,9 +1,12 @@
 from django.db import models
+from useraccess.models import SchedulerUser
 
 class ResidentRequests(models.Model):
-    email = models.EmailField()
-    firstName = models.CharField(max_length=120)
-    lastName = models.CharField(max_length=120)
+    email = models.OneToOneField(
+        SchedulerUser,
+        on_delete=models.CASCADE,
+        primary_key=True,
+    )
     requestOne = models.DateField(null=True, blank=True)
     requestTwo = models.DateField(null=True, blank=True)
     requestThree = models.DateField(null=True, blank=True)
