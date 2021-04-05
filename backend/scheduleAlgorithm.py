@@ -1,11 +1,14 @@
 #!/usr/bin/env python
 import os
 import sys
+# importing Criteria importing model for Criteria
+from Criteria.models import Criteria
+
 
 def main():
 
 
-def checkResidentAvailability(criteria):
+def checkResidentAvailability(Criteria):
     #not sure how to import criteria
     for criterion in criteria:
         int numWeek = getWeek(criterion)
