@@ -7,4 +7,4 @@ class ResidentRequests(models.Model):
     requestThree = models.DateField()
 
     def __str__(self):
-        return self.firstName
+        return self.email
