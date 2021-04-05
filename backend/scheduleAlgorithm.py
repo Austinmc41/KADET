@@ -2,15 +2,21 @@
 import os
 import sys
 # importing Criteria importing model for Criteria
-from Criteria.models import Criteria
+from criteria.models import Criteria
+from useraccess.models import SchedulerUser
 
 
 def main():
+    all_Criteria = Criteria.objects.all() 
+    all_Users = SchedulerUser.objects.all()
+    checkResidentAvailability(all_Criteria, all_Users)
 
 
-def checkResidentAvailability(Criteria):
+
+def checkResidentAvailability(Criteria, Users):
     #not sure how to import criteria
-    for criterion in criteria:
+    
+    for criterion in Criteria:
         int numWeek = getWeek(criterion)
 
         int pgy = criterion.ResidentYear #not sure how to get this but should be accessible
@@ -32,7 +38,7 @@ def checkResidentAvailability(Criteria):
             #alert user here that we don't have enough residents
             break
 
-def getWeek(criterion):
+def getWeek(Criteria):
     #assume that every criterion and the schedule itself starts on monday
     startDate = criterion.StartRotation
 
