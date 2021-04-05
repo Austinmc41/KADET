@@ -17,22 +17,23 @@ def checkResidentAvailability(Criteria, Users):
     #not sure how to import criteria
     
     for criterion in Criteria:
-        int numWeek = getWeek(criterion)
+        int numWeek = getWeek(criterion) #todo 
 
-        int pgy = criterion.ResidentYear #not sure how to get this but should be accessible
+        int pgy = criterion.ResidentYear #test
 
         int eligibleResidents = 0
 
-        int residentsNeeded = criterion.MinResident #not sure how to get this
+        int residentsNeeded = criterion.MinResident #test
 
         #not sure how to import residents
-        for resident in residents:
-            content = resident.weeks[numWeek]
-            if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
-                eligibleResidents++
+        for user in Users:
+            if user.ACCESS_CHOICES != "not applicable"  
+                content = resident.weeks[numWeek]   #todo
+                if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
+                    eligibleResidents++
 
-            if eligibleResidents >= residentsNeeded:
-                break
+                if eligibleResidents >= residentsNeeded:
+                    break
         
         if eligibleResidents < residentsNeeded:
             #alert user here that we don't have enough residents
