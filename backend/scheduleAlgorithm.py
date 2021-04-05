@@ -5,6 +5,7 @@ import sys
 from criteria.models import Criteria
 from useraccess.models import SchedulerUser
 
+eligibilityTable = []
 
 def main():
     all_Criteria = Criteria.objects.all() 
@@ -14,9 +15,14 @@ def main():
 
 
 def checkResidentAvailability(Criteria, Users):
+    #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
+    global eligibilityTable
+
+    int i = 0
     #not sure how to import criteria
-    
-    for criterion in Criteria:
+    for i in range(criteria.length): #length is a bit of a guess here, acting like criteria is an array 
+        criterion = criteria[i]
+
         int numWeek = getWeek(criterion) #todo 
 
         int pgy = criterion.ResidentYear #test
@@ -25,19 +31,31 @@ def checkResidentAvailability(Criteria, Users):
 
         int residentsNeeded = criterion.MinResident #test
 
+        criterionEligibility = []
+
         #not sure how to import residents
         for user in Users:
             if user.ACCESS_CHOICES != "not applicable"  
                 content = resident.weeks[numWeek]   #todo
                 if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
-                    eligibleResidents++
+                    criterionEligibility.append(user)
 
-                if eligibleResidents >= residentsNeeded:
-                    break
-        
         if eligibleResidents < residentsNeeded:
             #alert user here that we don't have enough residents
             break
+
+        eligibilityTable.append(criterionEligibility)
+
+        if criterion.isEssential() and i > 0:
+            #checks if i > 0 because we're about to do i - 1
+            prevCriterion = criteria[i - 1]
+            prevMin = prevCriterion.MinResident
+            if(prevCriterion.isOvernight()):
+                numUnique = getUniqueResidents(i, i - 1).length
+                if(numUnique < (prevMin + residentsNeeded)):
+                    #ALERT USER
+
+        i++
 
 def getWeek(Criteria):
     #assume that every criterion and the schedule itself starts on monday
@@ -53,30 +71,67 @@ def getWeek(Criteria):
     weeks = delta / 7
     return weeks
 
+def getUniqueResidents(i, i2):
+    #arguments: indices of table to get unique residents from
+    global eligibilityTable
+
+    uniqueResidents = eligibilityTable[i]
+
+    for resident in eligibilityTable[i2]:
+        if resident not in uniqueResidents:
+            uniqueResidents.append(resident)
+
+    return uniqueResidents
+
 def algorithm():
-    #very tentative
-    #currently this creates a table of all eligible residents per week
-    #however, i noticed that this is really similar to checkResidentAvailability
-    #it's possible that we can combine this with cehckResidentAvailability to make the table the first time around
-    #still not sure exactly what tricks we can do with this table
+    global eligibilityTable
 
-    eligibleTotal = [] #this will be a 2darray
-
-    for i in range(criteria.length): #length is a bit of a guess here, acting like criteria is an array 
+    for i in range(criteria.length): 
+        #iterate through criteria
         criterion = criteria[i]
 
-        int numWeek = getWeek(criterion)
+        int residentsNeeded = criterion.MinResident
 
-        int pgy = criterion.ResidentYear
+        for j in range(residentsNeeded):
+            #this basically assigns the first residentsNeeded residents into the criteria
+            #assigns resident by changing week[i] value
+            assignedResident = eligibilityTable[i][j]
+            assignedResident.weeks[i] = criterion.RotationType
 
-        for resident in residents:
-            content = resident.weeks[numWeek]
+        if criterion.isEssential() and i > 0:
+            #if the criterion is essential, we have to check if the previous one is overnight
+            prevCriterion = criteria[i - 1]
+            prevMin = prevCriterion.MinResident
 
-            eligibleWeek = []
+            if(prevCriterion.isOvernight()):
+                #the only way we run out of students is if the people assigned to the overnight were the only people 
+                #available for the essential, with numerous other people available for the overnight
 
-            if content != "BLACKBOUT" and resident.pgy == pgy:
-                eligibleWeek.append(resident)
+                #thus, we basically check if essential has enough people if we remove the people assigned to overnight previously
+                #we're going to remove the overnight assigned people from the essential list
+                #thus, we're going to make a copy of the eligible residents for the essential rotation and remove the overnight people
+                
+                #now, i would like to do this calculation with just basic math regarding number of residents required
+                #it may be possible, i'm just worried about unique residents and whether some residents are eligible for both overnight and essential
+                eligibleEssential = eligibilityTable[i].copy()
+                eligibleOvernight = eligibilityTable[i - 1]
+                for k in range(prevMin):
+                    overnightResident = eligibleOvernight[k]
+                    if overnightResident in eligibleEssential:
+                        #if the overnightResident is even in the eligible list, then remove
+                        eligibleEssential.remove(overnightResident)
 
-        eligibleTotal.append(eligibleWeek)
+                numEssential = eligibleEssential.length
 
+                #now we check if the number of remaining people is enough
+                if numEssential < residentsNeeded:
+                    #if the num remaining people isn't enough, we then assign with priority to the essential rotation
+                    #the first x residents are already assigned to the essential rotation given the above code
+                    #thus, all we have to do are to remove the first x residents from the previous rotation and to assign the next x
+                    for x in range(prevMin):
+                        resident = eligibilityTable[i - 1][x]
+                        resident.week[i - 1] = None
+                    for x in range(prevMin):
+                        resident = eligibilityTable[i - 1][x + prevMin]
+                        resident.week[i - 1] = None
         
