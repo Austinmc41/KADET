@@ -44,7 +44,29 @@ def getWeek(criterion):
     return weeks
 
 def algorithm():
+    #very tentative
+    #currently this creates a table of all eligible residents per week
+    #however, i noticed that this is really similar to checkResidentAvailability
+    #it's possible that we can combine this with cehckResidentAvailability to make the table the first time around
+    #still not sure exactly what tricks we can do with this table
+
+    eligibleTotal = [] #this will be a 2darray
+
     for i in range(criteria.length): #length is a bit of a guess here, acting like criteria is an array 
         criterion = criteria[i]
+
+        int numWeek = getWeek(criterion)
+
+        int pgy = criterion.ResidentYear
+
+        for resident in residents:
+            content = resident.weeks[numWeek]
+
+            eligibleWeek = []
+
+            if content != "BLACKBOUT" and resident.pgy == pgy:
+                eligibleWeek.append(resident)
+
+        eligibleTotal.append(eligibleWeek)
 
         
