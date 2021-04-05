@@ -134,4 +134,4 @@ def algorithm():
                     for x in range(prevMin):
                         resident = eligibilityTable[i - 1][x + prevMin]
                         resident.week[i - 1] = None
-        
+                    #CHECK LOGIC HERE, its possible that at least one of the prevMin should actually be residentsNeeded
