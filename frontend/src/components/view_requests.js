@@ -17,11 +17,10 @@ import Card from 'react-bootstrap/Card'
         <Accordion defaultActiveKey="">
       <Card>
       <Accordion.Toggle as={Card.Header} eventKey="0">
-      '"First Name" + "Lastname"''
+      Email Address
       </Accordion.Toggle>
       <Accordion.Collapse eventKey="0">
       <Card.Body>
-        <p>Email Address:</p>
         <p>Request 1:</p>
         <p>Request 2:</p>
         <p>Request 3:</p>

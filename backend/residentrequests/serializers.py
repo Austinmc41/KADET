@@ -4,4 +4,4 @@ from .models import ResidentRequests
 class RequestsSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = ResidentRequests 
-        fields = ['id', 'email', 'firstName', 'lastName', 'requestOne', 'requestTwo', 'requestThree']
+        fields = ['id', 'email', 'requestOne', 'requestTwo', 'requestThree']

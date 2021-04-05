@@ -125,7 +125,7 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 # all below added for this project
-
+"""
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.IsAuthenticated',
@@ -148,10 +148,10 @@ SIMPLE_JWT = {
     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
     'TOKEN_TYPE_CLAIM': 'token_type',
 }
-
+"""
 CORS_ORIGIN_WHITELIST = [
     'http://localhost:3000',
-    'http://localhost:3001',
+#    'http://localhost:3001',
 ]
 
 # Custom user model
