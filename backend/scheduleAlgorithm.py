@@ -12,8 +12,6 @@ def main():
     all_Users = SchedulerUser.objects.all()
     checkResidentAvailability(all_Criteria, all_Users)
 
-
-
 def checkResidentAvailability(Criteria, Users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
