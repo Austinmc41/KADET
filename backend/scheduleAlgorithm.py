@@ -25,8 +25,6 @@ def checkResidentAvailability(Criteria, Users):
 
         int pgy = criterion.ResidentYear #test
 
-        int eligibleResidents = 0
-
         int residentsNeeded = criterion.MinResident #test
 
         criterionEligibility = []
@@ -38,7 +36,7 @@ def checkResidentAvailability(Criteria, Users):
                 if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
                     criterionEligibility.append(user)
 
-        if eligibleResidents < residentsNeeded:
+        if criterionEligibility.length < residentsNeeded:
             #alert user here that we don't have enough residents
             break
 
@@ -64,6 +62,16 @@ def getWeek(Criteria):
     #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
     #this syntax is a compelte guess from internet searches
     delta = datetime.datetime.strptime(scheduleStart, datetimeFormat) - datetime.datetime.strptime(startDate, datetimeFormat)
+    delta = delta.days
+
+    weeks = delta / 7
+    return weeks
+
+def getWeekLength(startDate, endDate):
+
+    #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
+    #this syntax is a compelte guess from internet searches
+    delta = datetime.datetime.strptime(endDate, datetimeFormat) - datetime.datetime.strptime(startDate, datetimeFormat)
     delta = delta.days
 
     weeks = delta / 7
