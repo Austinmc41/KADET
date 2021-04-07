@@ -16,7 +16,6 @@ def checkResidentAvailability(Criteria, Users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
 
-    int i = 0
     #not sure how to import criteria
     for i in range(criteria.length): #length is a bit of a guess here, acting like criteria is an array 
         criterion = criteria[i]
@@ -27,14 +26,24 @@ def checkResidentAvailability(Criteria, Users):
 
         int residentsNeeded = criterion.MinResident #test
 
+        int criterionLength = getWeekLength(criterion.StartRotation, criterion.EndRotation)
+
         criterionEligibility = []
 
         #not sure how to import residents
         for user in Users:
-            if user.ACCESS_CHOICES != "not applicable"  
-                content = resident.weeks[numWeek]   #todo
-                if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
-                    criterionEligibility.append(user)
+
+            #use availabilityCounter to see if resident is available all weeks of criteria
+            int availabilityCounter = 0
+            for j in range(criterionLength):
+                if user.ACCESS_CHOICES != "not applicable"  
+                    #do numWeek to get week of criteria, add j to get exact week
+                    content = resident.weeks[numWeek + j]   #todo
+                    if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
+                        availabilityCounter++
+            
+            if availabilityCounter == criterionLength:
+                criterionEligibility.append(user)
 
         if criterionEligibility.length < residentsNeeded:
             #alert user here that we don't have enough residents
@@ -50,8 +59,7 @@ def checkResidentAvailability(Criteria, Users):
                 numUnique = getUniqueResidents(i, i - 1).length
                 if(numUnique < (prevMin + residentsNeeded)):
                     #ALERT USER
-
-        i++
+                    break
 
 def getWeek(Criteria):
     #assume that every criterion and the schedule itself starts on monday
