@@ -14,3 +14,6 @@ class SchedulerUser(AbstractUser):
         max_length=5,
         choices=ACCESS_CHOICES,
     )
+
+    def __str__(self):
+        return self.username
