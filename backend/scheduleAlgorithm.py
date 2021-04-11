@@ -12,37 +12,37 @@ def main():
     all_Users = SchedulerUser.objects.all()
     checkResidentAvailability(all_Criteria, all_Users)
 
-def checkResidentAvailability(Criteria, Users):
+def checkResidentAvailability(criteria, users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
 
     #not sure how to import criteria
-    for i in range(criteria.length): #length is a bit of a guess here, acting like criteria is an array 
+    for i in range(len(criteria): #length is a bit of a guess here, acting like criteria is an array 
         criterion = criteria[i]
 
-        int numWeek = getWeek(criterion) #todo 
+        int startWeek = getWeek(criterion) 
 
         int pgy = criterion.ResidentYear #test
 
         int residentsNeeded = criterion.MinResident #test
 
-        int criterionLength = getWeekLength(criterion.StartRotation, criterion.EndRotation)
+        int numWeeks = getWeekLength(criterion.StartRotation, criterion.EndRotation)
 
         criterionEligibility = []
 
         #not sure how to import residents
-        for user in Users:
+        for user in users:
 
-            #use availabilityCounter to see if resident is available all weeks of criteria
-            int availabilityCounter = 0
-            for j in range(criterionLength):
+            #use weeksAvailable to see if resident is available all weeks of criteria
+            int weeksAvailable = 0
+            for j in range(numWeeks):
                 if user.ACCESS_CHOICES != "not applicable"  
-                    #do numWeek to get week of criteria, add j to get exact week
-                    content = resident.weeks[numWeek + j]   #todo
+                    #do startWeek to get week of criteria, add j to get exact week
+                    content = resident.weeks[startWeek + j]   #todo
                     if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
-                        availabilityCounter++
+                        weeksAvailable++
             
-            if availabilityCounter == criterionLength:
+            if weeksAvailable == numWeeks:
                 criterionEligibility.append(user)
 
         if criterionEligibility.length < residentsNeeded:
