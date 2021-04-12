@@ -14,6 +14,12 @@ class SchedulerUser(AbstractUser):
         max_length=5,
         choices=ACCESS_CHOICES,
     )
+    email = models.EmailField(max_length=254, unique=True, primary_key=True)
+
+    ResidentSchedule = models.JSONField(default=dict)
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
     def __str__(self):
-        return self.username
+        return self.email
