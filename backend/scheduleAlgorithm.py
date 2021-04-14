@@ -8,16 +8,21 @@ from useraccess.models import SchedulerUser
 eligibilityTable = []
 
 def main():
-    all_Criteria = Criteria.objects.all() 
+    all_Criteria = Criteria.objects.all()
+    # converting queryset to list for easier traversal and indexing
+    criteriaList = list(all_Criteria)
+    # converting queryset to list for easier traversal and indexing
     all_Users = SchedulerUser.objects.all()
-    checkResidentAvailability(all_Criteria, all_Users)
+    userList = list(all_Users)
+
+    checkResidentAvailability(criteriaList, userList)
 
 def checkResidentAvailability(criteria, users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
 
     #not sure how to import criteria
-    for i in range(len(criteria): #length is a bit of a guess here, acting like criteria is an array 
+    for i in range(len(criteria)): #length is a bit of a guess here, acting like criteria is an array 
         criterion = criteria[i]
 
         int startWeek = getWeek(criterion) 
@@ -97,10 +102,10 @@ def getUniqueResidents(i, i2):
 
     return uniqueResidents
 
-def algorithm():
+def algorithm(criteria, users):
     global eligibilityTable
 
-    for i in range(criteria.length): 
+    for i in range(len(criteria)): 
         #iterate through criteria
         criterion = criteria[i]
 
