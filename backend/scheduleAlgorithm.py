@@ -6,7 +6,7 @@ from criteria.models import Criteria
 from useraccess.models import SchedulerUser
 
 eligibilityTable = []
-
+# main flow of the program is here
 def main():
     all_Criteria = Criteria.objects.all()
     # converting queryset to list for easier traversal and indexing
@@ -17,6 +17,7 @@ def main():
 
     checkResidentAvailability(criteriaList, userList)
 
+# takes in a list of criteria and users to check if availabilty of residents 
 def checkResidentAvailability(criteria, users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
@@ -66,7 +67,7 @@ def checkResidentAvailability(criteria, users):
                     #ALERT USER
                     break
 
-def getWeek(Criteria):
+def getWeek(criteria):
     #assume that every criterion and the schedule itself starts on monday
     startDate = criterion.StartRotation
 
@@ -102,6 +103,7 @@ def getUniqueResidents(i, i2):
 
     return uniqueResidents
 
+# takes in a list of criteria and users 
 def algorithm(criteria, users):
     global eligibilityTable
 
