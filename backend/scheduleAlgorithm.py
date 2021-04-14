@@ -67,7 +67,7 @@ def checkResidentAvailability(criteria, users):
                     #ALERT USER
                     break
 
-def getWeek(criteria):
+def getWeek(criterion):
     #assume that every criterion and the schedule itself starts on monday
     startDate = criterion.StartRotation
 
