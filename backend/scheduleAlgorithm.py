@@ -17,10 +17,15 @@ def main():
 
     checkResidentAvailability(criteriaList, userList)
 
+    if(checkResidentAvailability == True):
+        algorithm(criteriaList, userList)
+
 # takes in a list of criteria and users to check if availabilty of residents 
 def checkResidentAvailability(criteria, users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
+
+    badCriteria = []
 
     #not sure how to import criteria
     for i in range(len(criteria)): #length is a bit of a guess here, acting like criteria is an array 
@@ -52,8 +57,8 @@ def checkResidentAvailability(criteria, users):
                 criterionEligibility.append(user)
 
         if criterionEligibility.length < residentsNeeded:
-            #alert user here that we don't have enough residents
-            break
+            #append criterion to badCriteria if not enough
+            badCriteria.append(criterion)
 
         eligibilityTable.append(criterionEligibility)
 
@@ -64,8 +69,14 @@ def checkResidentAvailability(criteria, users):
             if(prevCriterion.isOvernight()):
                 numUnique = getUniqueResidents(i, i - 1).length
                 if(numUnique < (prevMin + residentsNeeded)):
-                    #ALERT USER
-                    break
+                    #append criterion to badCriteria if not enough
+                    badCriteria.append(criterion)
+
+    if(len(badCriteria) > 0):
+        #ALERT USER WITH BADCRITERIA
+        return False
+    else:
+        return True
 
 def getWeek(criterion):
     #assume that every criterion and the schedule itself starts on monday
