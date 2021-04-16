@@ -52,6 +52,8 @@ def generateWeekTable(requestList):
 
         #don't think requests even holds the PGY info atm, but it makes this easier
         userInfo = [request.email, request.pgy]
+        #make the first element of the list the userInfo
+        #it's possible that it's more efficient to use a dictionary, feel free to swap things up if you wanna go with that
         userSchedule = [userInfo]
         for i in range(scheduleLength):
             #assuming we start at week 0, as i believe that is how getWeek will work, check my logic
@@ -79,15 +81,13 @@ def checkResidentAvailability(criteria, users):
     for i in range(len(criteria)): #length is a bit of a guess here, acting like criteria is an array 
         criterion = criteria[i]
 
-        startDate = criterion.StartRotation
+        int startWeek = getWeek(criterion.StartRotation) 
 
-        int startWeek = getWeek(startDate) 
+        int numWeeks = getWeekLength(criterion.StartRotation, criterion.EndRotation)
 
         int pgy = criterion.ResidentYear #test
 
         int residentsNeeded = criterion.MinResident #test
-
-        int numWeeks = getWeekLength(criterion.StartRotation, criterion.EndRotation)
 
         criterionEligibility = []
 
@@ -112,7 +112,7 @@ def checkResidentAvailability(criteria, users):
             
             if weeksAvailable == numWeeks:
                 #append userEmail now
-                criterionEligibility.append(userEmail)
+                criterionEligibility.append(userInfo)
 
         if criterionEligibility.length < residentsNeeded:
             #append criterion to badCriteria if not enough
@@ -183,11 +183,25 @@ def algorithm(criteria, users):
 
         int residentsNeeded = criterion.MinResident
 
-        for j in range(residentsNeeded):
-            #this basically assigns the first residentsNeeded residents into the criteria
-            #assigns resident by changing week[i] value
-            assignedResident = eligibilityTable[i][j]
-            assignedResident.weeks[i] = criterion.RotationType
+        int startWeek = getWeek(criterion.StartRotation) 
+
+        int numWeeks = getWeekLength(criterion.StartRotation, criterion.EndRotation)
+
+        #changed things up because weekTable is organized by the users in the the request list
+        #basically you iterate through weekTable and if you see a user that was eligible for the criteria, you add them to the criteria
+        #ends early if you get the number of residentsNeeded
+        int residentsAcquired = 0
+        for userSchedule in weekTable:
+
+            userInfo = userSchedule[0]
+            if userInfo in eligibilityTable[i]:
+                residentsAcquired++
+                for j in range(numWeeks):
+                    #+1 here cuz the first element is userInfo
+                    userSchedule[startWeek + j + 1] = criterion.RotationType
+            
+            if residentsAcquired == residentsNeeded:
+                break
 
         if criterion.isEssential() and i > 0:
             #if the criterion is essential, we have to check if the previous one is overnight
@@ -208,11 +222,14 @@ def algorithm(criteria, users):
                 eligibleOvernight = eligibilityTable[i - 1]
                 for k in range(prevMin):
                     overnightResident = eligibleOvernight[k]
+
                     if overnightResident in eligibleEssential:
                         #if the overnightResident is even in the eligible list, then remove
                         eligibleEssential.remove(overnightResident)
 
                 numEssential = eligibleEssential.length
+
+                #TODO: update this section below where you unassign and assign residents with respect to the new weekTable system
 
                 #now we check if the number of remaining people is enough
                 if numEssential < residentsNeeded:
