@@ -6,6 +6,11 @@ from criteria.models import Criteria
 from useraccess.models import SchedulerUser
 
 eligibilityTable = []
+
+weekTable = []
+#week table will essentially be the 2D list of resident weeks
+#list of lists, each individual list is a singular resident's schedule week by week
+
 # main flow of the program is here
 def main():
     all_Criteria = Criteria.objects.all()
@@ -15,15 +20,58 @@ def main():
     all_Users = SchedulerUser.objects.all()
     userList = list(all_Users)
 
+    #copy pasted Austin's queryset translation here, hope it works
+    all_Requests = ResidentRequests.objects.all()
+    requestList = list(all_Requests)
+
+    generateWeekTable(requestList)
+
     checkResidentAvailability(criteriaList, userList)
 
     if(checkResidentAvailability == True):
         algorithm(criteriaList, userList)
 
+def generateWeekTable(requestList):
+    global weekTable
+
+    #not sure how to get this, this could hypothetically just be 52 but this makes it more flexible
+    scheduleLength = getWeekLength(schedule.startDate, schedule.endDate)
+
+    #one issue here is that the 2D array will have its users sorted by request. thus we'll have the user email at the top of the list
+    for request in requestList:
+        #guessing the syntax here
+        requestOne = request.requestOne
+        requestTwo = request.requestTwo
+        requestThree = request.requestThree
+
+        #changed getWeek to take in a dateField instead of a criteria
+        #at the moment assuming that every request will be honored, not 100% sure if that is how it is though
+        requestWeekOne = getWeek(requestOne)
+        requestWeekTwo = getWeek(requestTwo)
+        requestWeekThree = getWeek(requestThree)
+
+        #don't think requests even holds the PGY info atm, but it makes this easier
+        userInfo = [request.email, request.pgy]
+        userSchedule = [userInfo]
+        for i in range(scheduleLength):
+            #assuming we start at week 0, as i believe that is how getWeek will work, check my logic
+            if i == requestWeekOne:
+                userSchedule.append("BLACKOUT")
+            elif i == requestWeekTwo:
+                userSchedule.append("BLACKOUT")
+            elif i == requestWeekThree:
+                userSchedule.append("BLACKOUT")
+            else:
+                userSchedule.append("NA")
+        weekTable.append(userSchedule)
+
+
 # takes in a list of criteria and users to check if availabilty of residents 
 def checkResidentAvailability(criteria, users):
     #my python's a lil rusty, but from what ive googled, i need to declare eligibilityTable as a global for its values to change globally
     global eligibilityTable
+
+    global weekTable
 
     badCriteria = []
 
@@ -31,7 +79,9 @@ def checkResidentAvailability(criteria, users):
     for i in range(len(criteria)): #length is a bit of a guess here, acting like criteria is an array 
         criterion = criteria[i]
 
-        int startWeek = getWeek(criterion) 
+        startDate = criterion.StartRotation
+
+        int startWeek = getWeek(startDate) 
 
         int pgy = criterion.ResidentYear #test
 
@@ -41,20 +91,28 @@ def checkResidentAvailability(criteria, users):
 
         criterionEligibility = []
 
-        #not sure how to import residents
-        for user in users:
+        #this basically is the equivalent of iterating through users
+        for k in range(len(weekTable)):
 
             #use weeksAvailable to see if resident is available all weeks of criteria
             int weeksAvailable = 0
+
+            userSchedule = weekTable[k]
+            userInfo = weekTable[0]
+
+            userEmail = userInfo[0]
+            userPgy = userInfo[1]
+
             for j in range(numWeeks):
-                if user.ACCESS_CHOICES != "not applicable"  
-                    #do startWeek to get week of criteria, add j to get exact week
-                    content = resident.weeks[startWeek + j]   #todo
-                    if content != "BLACKOUT" and resident.pgy == pgy: #not sure how to get resident.pgy
-                        weeksAvailable++
+                
+                #do startWeek to get week of criteria, add j to get exact week, add +1 because the first element is the user's email
+                content = userSchedule[startWeek + j + 1]   #todo
+                if content != "BLACKOUT" and userPgy == pgy: 
+                    weeksAvailable++
             
             if weeksAvailable == numWeeks:
-                criterionEligibility.append(user)
+                #append userEmail now
+                criterionEligibility.append(userEmail)
 
         if criterionEligibility.length < residentsNeeded:
             #append criterion to badCriteria if not enough
@@ -78,9 +136,8 @@ def checkResidentAvailability(criteria, users):
     else:
         return True
 
-def getWeek(criterion):
+def getWeek(startDate):
     #assume that every criterion and the schedule itself starts on monday
-    startDate = criterion.StartRotation
 
     scheduleStart = schedule.StartDate #not sure how to get starting date of schedule model
 
@@ -117,6 +174,8 @@ def getUniqueResidents(i, i2):
 # takes in a list of criteria and users 
 def algorithm(criteria, users):
     global eligibilityTable
+
+    global weekTable
 
     for i in range(len(criteria)): 
         #iterate through criteria
