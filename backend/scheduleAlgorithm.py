@@ -98,7 +98,7 @@ def checkResidentAvailability(criteria, users):
             int weeksAvailable = 0
 
             userSchedule = weekTable[k]
-            userInfo = weekTable[0]
+            userInfo = userSchedule[0]
 
             userEmail = userInfo[0]
             userPgy = userInfo[1]
