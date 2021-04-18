@@ -36,8 +36,8 @@ def checkResidentAvailability(criteria, users):
 
             #add +1 because the first element is the user's email
             content = userSchedule[currentWeek + 1]   #todo
-                if content != "BLACKOUT": 
-                    pgyAvailable[userPgy] += 1
+            if content != "BLACKOUT": 
+                pgyAvailable[userPgy] += 1
 
         # loop through and compare pgyNeeded to pgyAvailable
         for pgy in range(1, 6):
