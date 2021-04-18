@@ -16,7 +16,7 @@ def checkResidentAvailability(criteria):
             endWeek = getWeek(criterion.EndRotation)
 
             if startWeek <= currentWeek <= endWeek:
-                pgys = criterion.ResidentYear #test; may need to be changed to make sure this is an integer and not a string.
+                pgys = int(criterion.ResidentYear) #Force cast as int should work but idk
                 #Sure, i was testing this in interactive console and here is my conversion.
                 switch = {
                     'PGY1': 0,
@@ -38,9 +38,9 @@ def checkResidentAvailability(criteria):
             userInfo = userSchedule[0]
 
             userEmail = userInfo[0] # probably don't need this
-            userPgy = userInfo[1] # may need to be changed to make sure this is an integer and not a string
+            userPgy = int(userInfo[1]) # Force to int
 
-            #add +1 because the first element is the user's email.// did you mean to say userinfo ?
+            #add +1 because the first element is the userInfo
             content = userSchedule[currentWeek + 1]   #todo // what exactly ?
             if content != "BLACKOUT": 
                 pgyAvailable[userPgy] += 1
@@ -53,6 +53,7 @@ def checkResidentAvailability(criteria):
 
     if(len(badCriteria) > 0):
     #I was thinking print to console for testing purposes, then we can render request like in views.py in a separate app to frontend alerting users.
+        print("Bad Criteria")
         return False
     else:
         return True
