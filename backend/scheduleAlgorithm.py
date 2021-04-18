@@ -143,9 +143,11 @@ def getWeek(startDate):
     scheduleStart = schedule.StartDate #not sure how to get starting date of schedule model
 
     #assuming we get start date back properly
-    #look at docs for strftime not sure which start day we are using for first day of the week
-    week = datetime.datetime(scheduleStart.strftime("%W"))
+    # gives the number of the week of the start week but I dont think our schedule start is in the correct datetime format (YYYY, MM , DD)
+    week = datetime.datetime(scheduleStart.strftime("%W")) 
     #week = datetime.datetime(scheduleStart.strftime("%U")) 
+        #look at docs for strftime not sure which start day we are using for first day of the week
+
    
     return week
 
