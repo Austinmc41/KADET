@@ -1,8 +1,5 @@
-def checkResidentAvailability(criteria, users):
-# what is the point of users as a parameter?
-
+def checkResidentAvailability(criteria):
     global weekTable
-
     badCriteria = []
 
     # loop through entire year, week by week
@@ -19,7 +16,16 @@ def checkResidentAvailability(criteria, users):
             endWeek = getWeek(criterion.EndRotation)
 
             if startWeek <= currentWeek <= endWeek:
-                pgy = criterion.ResidentYear #test; may need to be changed to make sure this is an integer and not a string
+                pgys = criterion.ResidentYear #test; may need to be changed to make sure this is an integer and not a string.
+                #Sure, i was testing this in interactive console and here is my conversion.
+                switch = {
+                    'PGY1': 0,
+                    'PGY2': 1,
+                    'PGY3': 2,
+                    'PGY4': 3,
+                    'PGY5': 4
+                }
+                pgy = switch.get(pgys, "invalid pgy")
                 residentsNeeded = criterion.MinResident #test
                 pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
 
@@ -34,19 +40,19 @@ def checkResidentAvailability(criteria, users):
             userEmail = userInfo[0] # probably don't need this
             userPgy = userInfo[1] # may need to be changed to make sure this is an integer and not a string
 
-            #add +1 because the first element is the user's email
-            content = userSchedule[currentWeek + 1]   #todo
+            #add +1 because the first element is the user's email.// did you mean to say userinfo ?
+            content = userSchedule[currentWeek + 1]   #todo // what exactly ?
             if content != "BLACKOUT": 
                 pgyAvailable[userPgy] += 1
 
-        # loop through and compare pgyNeeded to pgyAvailable
+        # loop through and compare pgyNeeded to pgyAvailable.
         for pgy in range(1, 6):
             if pgyNeeded[pgy] > pgyAvailable[pgy]:
                 short = pgyNeeded[pgy] - pgyAvailable[pgy]
                 badCriteria.append("For week " + currentWeek + ", we are short " + short + "residents of PGY" + pgy)
 
     if(len(badCriteria) > 0):
-    #ALERT USER WITH BADCRITERIA
+    #I was thinking print to console for testing purposes, then we can render request like in views.py in a separate app to frontend alerting users.
         return False
     else:
         return True
