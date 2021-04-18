@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import sys
+import math
 # importing Criteria importing model for Criteria
 from criteria.models import Criteria
 from useraccess.models import SchedulerUser
@@ -141,22 +142,21 @@ def getWeek(startDate):
 
     scheduleStart = schedule.StartDate #not sure how to get starting date of schedule model
 
-    #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
-    #this syntax is a compelte guess from internet searches
-    delta = datetime.datetime.strptime(scheduleStart, datetimeFormat) - datetime.datetime.strptime(startDate, datetimeFormat)
-    delta = delta.days
-
-    weeks = delta / 7
-    return weeks
+    #assuming we get start date back properly
+    #look at docs for strftime not sure which start day we are using for first day of the week
+    week = datetime.datetime(scheduleStart.strftime("%W"))
+    #week = datetime.datetime(scheduleStart.strftime("%U")) 
+   
+    return week
 
 def getWeekLength(startDate, endDate):
 
     #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
     #this syntax is a compelte guess from internet searches
-    delta = datetime.datetime.strptime(endDate, datetimeFormat) - datetime.datetime.strptime(startDate, datetimeFormat)
+    delta = datetime.datetime(endDate) - datetime.datetime(startDate)
     delta = delta.days
 
-    weeks = delta / 7
+    weeks = math.ceil(delta / 7) #we use ceiling to round up all days ex: if delta = 10 that should be considered 2 weeks
     return weeks
 
 def getUniqueResidents(i, i2):
