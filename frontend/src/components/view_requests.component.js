@@ -39,10 +39,10 @@ class Requests extends Component {
             <Card>
                 <div className="col-md-8 col-sm-10 mx-auto p-0">
                     <Accordion defaultActiveKey="">
-                        <Accordion.Toggle as={Card.Header} eventKey = {item.id}>
+                        <Accordion.Toggle as={Card.Header} eventKey = {item.email}>
                             {item.email}
                         </Accordion.Toggle>
-                            <Accordion.Collapse eventKey={item.id}>
+                            <Accordion.Collapse eventKey={item.email}>
                             <Card.Body>
                             <p>Request 1:  {item.requestOne} </p>
                             
