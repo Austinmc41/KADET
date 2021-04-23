@@ -1,3 +1,7 @@
 from django.contrib import admin
+from .models import AlgorithmStatus
 
-# Register your models here.
+# added for this project
+@admin.register(AlgorithmStatus)
+class AlgorithmStatusAdmin(admin.ModelAdmin):  
+    list_display = ("Status",)

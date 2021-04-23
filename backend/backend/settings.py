@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "settings", # added for this project
     "residentrequests", # added for this project
     "useraccess", # added for this project
+    "algorithm", # added for this project
     "rest_framework", # added for this project
     "corsheaders", # added for this project
 ]
