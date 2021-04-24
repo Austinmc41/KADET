@@ -19,6 +19,8 @@ Application to automate the process of creating schedules for Emory's large numb
 ## Dependencies
 - Python3
 - Django
+  - django-rest-framework
+  - django-cors-headers
 - React
 - Bootstrap
 
