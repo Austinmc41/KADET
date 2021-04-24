@@ -3,7 +3,7 @@ Application to automate the process of creating schedules for Emory's large numb
 
 # Release Notes
 
-## 1.0 -2021-04-23
+## 0.8 -2021-04-23
 
 ### Added
 - 
@@ -12,4 +12,22 @@ Application to automate the process of creating schedules for Emory's large numb
 ### Known Issues
 - 
 # Install Guide
+
+## Prerequisites
+- Windows/Mac Computer with installation privileges
+
+## Dependencies
+- Python3
+- Django
+- React
+- Bootstrap
+
+## Download Instructions
+- 
+## Installation
+
+## Run Instructions
+
+## Troubleshooting
+
 
