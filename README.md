@@ -35,12 +35,14 @@ instead of using frontend, which would be poor separation of concerns.
 
 
 ## Download Instructions
-- 
+- run from terminal in mac git clone https://github.com/Austinmc41/KADET.git on your desktop
+- run from Windows powershell git clone https://github.com/Austinmc41/KADET.git on your desktop
+
 ## Installation
 - Install Python version >=3
 - Django Dependencies
   - pip install django
-  - pip install django-rest-framework
+  - pip install django-rest-framework 
   - pip install django-cors-headers
 
 ## Run Instructions
