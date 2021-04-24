@@ -20,6 +20,24 @@ instead of using frontend, which would be poor separation of concerns.
 - Windows/Mac Computer with installation privileges
 
 ## Dependencies
+- Docker
+- Python3
+- Django
+  - django-rest-framework
+  - django-cors-headers
+- React
+  - react
+  - react-router-dom
+  - react-dom
+  - reactstrap
+  - react-bootstrap
+  - bootstrap
+  - axios
+## BACKEND ONLY:
+## Docker Compose 1: container to run django app with gunicorn.
+## Docker Compose 2: container to listen to  gunircorn container with nginx at port 80.
+Both containers will have access to the static file and the shared volume.
+
 - Python3
 - Django
   - django-rest-framework
