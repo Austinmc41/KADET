@@ -7,8 +7,11 @@ Application to automate the process of creating schedules for Emory's large numb
 
 ### Added
 - Frontend react application
+
 ### Fixed
-- 
+- added endpoints for accepting client request to run algoritm on backend
+instead of using frontend, which would be poor separation of concerns.
+
 ### Known Issues
 - 
 # Install Guide
