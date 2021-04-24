@@ -22,18 +22,24 @@ Application to automate the process of creating schedules for Emory's large numb
   - django-rest-framework
   - django-cors-headers
 - React
+  - react
+  - react-router-dom
+  - react-dom
+  - reactstrap
+  - react-bootstrap
+  - bootstrap
+  - axios
+
 - Bootstrap
 
 ## Download Instructions
 - 
 ## Installation
-Install Python version >=3
-
-Django Dependencies
-
-pip install django
-pip install django-rest-framework
-pip install django-cors-headers
+- Install Python version >=3
+- Django Dependencies
+  - pip install django
+  - pip install django-rest-framework
+  - pip install django-cors-headers
 
 ## Run Instructions
 
