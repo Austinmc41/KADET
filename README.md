@@ -6,7 +6,7 @@ Application to automate the process of creating schedules for Emory's large numb
 ## 0.8 -2021-04-23
 
 ### Added
-- 
+- Frontend react application
 ### Fixed
 - 
 ### Known Issues
@@ -27,6 +27,13 @@ Application to automate the process of creating schedules for Emory's large numb
 ## Download Instructions
 - 
 ## Installation
+Install Python version >=3
+
+Django Dependencies
+
+pip install django
+pip install django-rest-framework
+pip install django-cors-headers
 
 ## Run Instructions
 
