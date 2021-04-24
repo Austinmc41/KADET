@@ -42,6 +42,13 @@ Application to automate the process of creating schedules for Emory's large numb
 
 ## Run Instructions
 
+- cd into project folder KADET
+- in /bin activate source with command: source activate
+- cd into /backend enter command: python3 manage.py runserver 
+- cd into /frontend enter command: npm start 
+- navigate to localhost:3000 in browser link should show from command line
+
+
 ## Troubleshooting
 
 
