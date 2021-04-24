@@ -30,7 +30,6 @@ Application to automate the process of creating schedules for Emory's large numb
   - bootstrap
   - axios
 
-- Bootstrap
 
 ## Download Instructions
 - 
