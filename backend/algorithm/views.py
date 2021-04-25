@@ -7,4 +7,6 @@ from .models import AlgorithmStatus
 
 class StatusView(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
-    queryset = AlgorithmStatus.objects.all()
+    # queryset = AlgorithmStatus.objects.all()
+    def get_queryset(self):
+        return AlgorithmStatus.objects.all()
