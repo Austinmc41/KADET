@@ -1,6 +1,6 @@
 import Accordion from 'react-bootstrap/Accordion';
 import Card from 'react-bootstrap/Card';
-
+import Button from 'react-bootstrap/Button';
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -35,30 +35,41 @@ class Requests extends Component {
         const newItems = this.state.requestList;
 
         return newItems.map((item) => (
-            
-            <Card>
-                <div className="col-md-8 col-sm-10 mx-auto p-0">
-                    <Accordion defaultActiveKey="">
-                        <Accordion.Toggle as={Card.Header} eventKey = {item.email}>
-                            {item.email}
-                        </Accordion.Toggle>
-                            <Accordion.Collapse eventKey={item.email}>
-                            <Card.Body>
-                            <p>Request 1:  {item.requestOne} </p>
-                            
-                            <p>Request 2: {item.requestTwo} </p>
-                                
-                            <p>Request 3: {item.requestThree} </p>
-                            </Card.Body>
-                        </Accordion.Collapse>
-                    </Accordion>
-
-                </div>
-            
-            </Card>
-
+            <Accordion>
+              <Card>
+                <Card.Header className="d-flex justify-content-between align-items-center">
+                  <div className={`mr-2`}>
+                    <Accordion.Toggle
+                      as={Button}
+                      variant="link"
+                      eventKey={item.email}
+                      title="Click to view resident request details"
+                    >
+                      +
+                    </Accordion.Toggle>
+                    {item.email}
+                  </div>
+    
+                </Card.Header>
+                <Accordion.Collapse eventKey={item.email}>
+                    <Card.Body className="text-muted">
+                      <div  className="list-group border-0">
+                        <span className="list-group-item border-0">
+                          Request 1: {item.requestOne}
+                        </span>
+                        <span className="list-group-item border-0">
+                          Request 2: {item.requestTwo}
+                        </span>
+                        <span className="list-group-item border-0">
+                          Request 3: {item.requestThree}
+                        </span>
+                      </div>
+                    </Card.Body>
+                  </Accordion.Collapse>
+              </Card>
+            </Accordion>
         ));
-    };
+      };
 
     render() {
     return (
