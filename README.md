@@ -34,10 +34,14 @@ instead of using frontend, which would be poor separation of concerns.
   - bootstrap
   - axios
 ## BACKEND ONLY:
-## Docker Compose 1: container to run django app with gunicorn.
-## Docker Compose 2: container to listen to  gunircorn container with nginx at port 80.
-Both containers will have access to the static file and the shared volume.
+##Nginx: containing default.config and uwsig params to actual listen to port 80 to create TCP connection, and also parse /static to upstream the static style for backend
+## Docker Compose 1: container to run django app with uwisg in the development mode, to run: call: docker-compose up.
+## Docke Compose 2: deployment container to listen to proxy listened from nginx at port 80 which shared volume: static between the django-uwsig service. To run: call docker-deployment-compose up, to run django server in production mode.
+Both containers will import the content and environment in  a root folder, they will also only run django in unpriviledged user created beforehand (read-only mode: 755). So as to prevent the attackers full access if our containers ever got compromised
 
+People at Emory can successfully run the server in production mode by copying the project/backend folder and docker-compose to a remote server to deploy it accordingly.
+
+## Libraries:
 - Python3
 - Django
   - django-rest-framework
