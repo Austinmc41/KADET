@@ -92,7 +92,7 @@ class StatusView(viewsets.ModelViewSet):
         messageTwo.save()
 
         errorCounter = 0
-        rotationCounter = 0
+        #rotationCounter = 0
         for currentWeek in range (52):
 
             # will ignore element 0
@@ -104,19 +104,20 @@ class StatusView(viewsets.ModelViewSet):
             for rotation in Criteria.objects.all():
                 startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
-                pgy = 0
+                pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
                 if startWeek <= currentWeek <= endWeek:
-                    pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
+                    
                     residentsNeeded = rotation.MinResident 
                     pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
                 #for algorithm
-                if rotationCounter == 0:
-                    rotationCounter += 1
-                    rotations.append(rotation)
-                    rotationMinMax.update({rotation: (rotation.MinResident, rotation.MaxResident)})
-                    rotationType.update({rotation: (rotation.Essential, rotation.Overnight)})
-                    rotationWeeks.update({rotation: [i for i in range(startWeek, endWeek + 1)]})
-                    pgyRotation.update({rotation: pgy})
+                #if rotationCounter == 0:
+                rotations.append(rotation.RotationType)
+                rotationMinMax.update({rotation.RotationType: (rotation.MinResident, rotation.MaxResident)})
+                rotationType.update({rotation.RotationType: (rotation.Essential, rotation.Overnight)})
+                rotationWeeks.update({rotation.RotationType: [i for i in range(startWeek, endWeek + 1)]})
+                pgyRotation.update({rotation.RotationType: pgy})
+                #print("rot pgy: " + str(pgy) + " " + rotation.RotationType)
+            #rotationCounter += 1
 
             # loop through all residents, ignoring those not availabvle
             # increasing pgyAvailable for each available residents
@@ -153,21 +154,22 @@ class StatusView(viewsets.ModelViewSet):
         # PuLP constraints
         for week in range(weeks):
             for rotation in rotations:
-                print(str(rotation) + str(rotationWeeks[rotation]))
+                #print(str(rotation) + str(rotationWeeks[rotation]))
                 if week in rotationWeeks[rotation]:
                     # In every week, each rotation is assigned by min/max required residents
                     problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) >= rotationMinMax[rotation][0] #min
-                    print(str(rotation) + str(rotationMinMax[rotation][0]))
-                    problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) <= rotationMinMax[rotation][1] #max
-                else:
-                    problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) == 0
+                    #print(str(rotation) + str(rotationMinMax[rotation][0]))
+                    #problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) <= rotationMinMax[rotation][1] #max
+                #else:
+                    #problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) == 0
 
             for resident in residents:
                 # Nobody is assigned multiple rotations in the same week
                 problem += pulp.lpSum(assignments[week, resident, rotation] for rotation in rotations) <= 1
                 # residents with incorrect PGY level are not available for rotation
                 for rotation in rotations:
-                    if week in rotationWeeks[rotation] and pgyRotation[rotation] != pgyResident[resident]:
+                    #print(str(pgyRotation[rotation]) + " : " + str(pgyResident[resident]))
+                    if week in rotationWeeks[rotation] and (pgyRotation[rotation] != pgyResident[resident]):
                         problem += assignments[week, resident, rotation] == 0
 
         for resident, blockedOut in unavailable.items():
@@ -190,9 +192,9 @@ class StatusView(viewsets.ModelViewSet):
         problem += pulp.lpSum(is_assigned[resident] for resident in residents)
 
         # Solve with the Coin/Cbc solver
-        tempMessage = AlgorithmStatus(Status=str(pulp.listSolvers(onlyAvailable=True)))
-        tempMessage.save()
-        problem.solve(pulp.PULP_CBC_CMD())
+        #tempMessage = AlgorithmStatus(Status=str(pulp.listSolvers(onlyAvailable=True)))
+        #tempMessage.save()
+        problem.solve(pulp.PULP_CBC_CMD(msg=1))
 
         for week in range(weeks):
             #print(f"week {week}:")
