@@ -8,6 +8,7 @@ import ListRequests from "./components/view_requests.component";
 import NotFound from "./components/NotFound";
 import history from './history';
 import run_scheduler from "./components/run_scheduler";
+import Status from "./components/algorithm.component";
 
 export default class Routes extends Component {
     render() {
@@ -19,6 +20,7 @@ export default class Routes extends Component {
                     <Route path="/Rotations" component={Criteria} />
                     <Route path="/view_requests" component={ListRequests} />
                     <Route path="/run_scheduler" component={run_scheduler} />
+                    <Route path="/algorithm" component={Status} />
                     <Route>
                         <NotFound />
                     </Route>

@@ -26,8 +26,12 @@ class StatusView(viewsets.ModelViewSet):
     # queryset = AlgorithmStatus.objects.all()
     def get_queryset(self):
         scheduleStart = Settings.StartSchedule
+        messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
+        messageOne.save()
         for resident in SchedulerUser.objects.all():
-            if resident.AccessLevel != 'not applicable':
+            if resident.AccessLevel != 'NA':
+                loopMessage = AlgorithmStatus(Status='looking up user ' + str(resident.email) + ' with access level ' + str(resident.AccessLevel))
+                loopMessage.save()
                 requests = ResidentRequests.objects.get(pk=resident.email)
                 requestOne = requests.requestOne
                 requestTwo = requests.requestTwo
@@ -35,6 +39,8 @@ class StatusView(viewsets.ModelViewSet):
                 weekOfRequestOne = str(getWeekDelta(scheduleStart, requestOne))
                 weekOfRequestTwo = str(getWeekDelta(scheduleStart, requestTwo))
                 weekOfRequestThree = str(getWeekDelta(scheduleStart, requestThree))
-
+                resident.ResidentSchedule.update({weekOfRequestOne: "VACATION"})
                 resident.save()
+        messageTwo = AlgorithmStatus(Status='Black out dates now added')
+        messageTwo.save()
         return AlgorithmStatus.objects.all()
