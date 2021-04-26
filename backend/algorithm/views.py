@@ -24,7 +24,7 @@ def getWeekDelta(startDate, endDate):
 
 class StatusView(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
-    # queryset = AlgorithmStatus.objects.all()
+
     def get_queryset(self):
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
         messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
@@ -44,6 +44,7 @@ class StatusView(viewsets.ModelViewSet):
                 resident.save()
                 resident.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
                 resident.save()
-        messageTwo = AlgorithmStatus(Status='Black out dates now added')
+        messageTwo = AlgorithmStatus(Status='Resident black out dates now added')
         messageTwo.save()
+
         return AlgorithmStatus.objects.all()
