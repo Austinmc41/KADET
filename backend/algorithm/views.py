@@ -13,12 +13,8 @@ from residentrequests.models import ResidentRequests
 from settings.models import Settings
 
 def getWeekDelta(startDate, endDate):
-    #assume that every criterion and the schedule itself starts on Wednesday, per Chris
-
-    scheduleStart = Settings.StartSchedule
-    
+    #assume that every rotation and the schedule itself starts on Wednesday, per Chris
     #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
-
     difference = endDate.date() - startDate.date()
     delta = difference.days
 
@@ -36,6 +32,9 @@ class StatusView(viewsets.ModelViewSet):
                 requestOne = requests.requestOne
                 requestTwo = requests.requestTwo
                 requestThree = requests.requestThree
-        return AlgorithmStatus.objects.all()
+                weekOfRequestOne = str(getWeekDelta(scheduleStart, requestOne))
+                weekOfRequestTwo = str(getWeekDelta(scheduleStart, requestTwo))
+                weekOfRequestThree = str(getWeekDelta(scheduleStart, requestThree))
 
-        # AlgorithmStatus.objects.create
+                resident.save()
+        return AlgorithmStatus.objects.all()
