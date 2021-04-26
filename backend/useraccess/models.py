@@ -16,7 +16,7 @@ class SchedulerUser(AbstractUser):
     )
     email = models.EmailField(max_length=254, unique=True, primary_key=True)
 
-    ResidentSchedule = models.JSONField(default=dict)
+    ResidentSchedule = models.JSONField(blank=True, null=True, default=dict)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
