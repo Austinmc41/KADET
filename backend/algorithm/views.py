@@ -194,7 +194,7 @@ class StatusView(viewsets.ModelViewSet):
         # Solve with the Coin/Cbc solver
         #tempMessage = AlgorithmStatus(Status=str(pulp.listSolvers(onlyAvailable=True)))
         #tempMessage.save()
-        problem.solve(pulp.PULP_CBC_CMD(msg=1))
+        problem.solve()
 
         for week in range(weeks):
             #print(f"week {week}:")
