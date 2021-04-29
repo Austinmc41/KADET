@@ -44,7 +44,7 @@ def getWeekDelta(startDate, endDate):
     difference = endDate - startDate
     delta = difference.days
 
-    numberOfWeeks = math.ceil(delta / 7) #we use ceiling to round up all days ex: if delta = 10 that should be considered 2 weeks
+    numberOfWeeks = math.floor(delta / 7) #we use floor to round down
     return numberOfWeeks
 
 class StatusView(viewsets.ModelViewSet):
@@ -110,14 +110,6 @@ class StatusView(viewsets.ModelViewSet):
                     residentsNeeded = rotation.MinResident 
                     pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
                 #for algorithm
-                #if rotationCounter == 0:
-                rotations.append(rotation.RotationType)
-                rotationMinMax.update({rotation.RotationType: (rotation.MinResident, rotation.MaxResident)})
-                rotationType.update({rotation.RotationType: (rotation.Essential, rotation.Overnight)})
-                rotationWeeks.update({rotation.RotationType: [i for i in range(startWeek, endWeek + 1)]})
-                pgyRotation.update({rotation.RotationType: pgy})
-                #print("rot pgy: " + str(pgy) + " " + rotation.RotationType)
-            #rotationCounter += 1
 
             # loop through all residents, ignoring those not availabvle
             # increasing pgyAvailable for each available residents
@@ -144,8 +136,37 @@ class StatusView(viewsets.ModelViewSet):
             message = AlgorithmStatus(Status="Resident availability check successful")
             message.save()
 
+        #for algorithm
+        for rotation in Criteria.objects.all():
+                startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
+                endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
+                pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
+                rotations.append(rotation.RotationType)
+                rotationMinMax.update({rotation.RotationType: (rotation.MinResident, rotation.MaxResident)})
+                rotationType.update({rotation.RotationType: (rotation.Essential, rotation.Overnight)})
+                rotationWeeks.update({rotation.RotationType: [i for i in range(startWeek, endWeek + 1)]})
+                pgyRotation.update({rotation.RotationType: pgy})
+        var1 = AlgorithmStatus(Status=str(weeks))
+        var1.save()
+        var2 = AlgorithmStatus(Status=str(residents))
+        var2.save()
+        var3 = AlgorithmStatus(Status=str(rotations))
+        var3.save()
+        var4 = AlgorithmStatus(Status=str(rotationMinMax))
+        var4.save()
+        var5 = AlgorithmStatus(Status=str(rotationType))
+        var5.save()
+        var6 = AlgorithmStatus(Status=str(rotationWeeks))
+        var6.save()
+        var7 = AlgorithmStatus(Status=str(pgyRotation))
+        var7.save()
+        var8 = AlgorithmStatus(Status=str(pgyResident))
+        var8.save()
+        var9 = AlgorithmStatus(Status=str(unavailable))
+        var9.save()
+
         # PuLP 'problem'
-        problem = pulp.LpProblem("resident_scheduler", pulp.LpMinimize)
+        problem = pulp.LpProblem("resident_scheduler")
 
         # PuLP variables
         assignments = pulp.LpVariable.dicts("Assignments", ((week, resident, rotation) for week in range(weeks) for resident in residents for rotation in rotations), cat="Binary")
