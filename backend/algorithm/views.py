@@ -27,7 +27,7 @@ global pgyRotation
 global pgyResident
 global unavailable
 
-weeks = 9
+weeks = 52
 residents = []
 rotations = []
 rotationMinMax = {}
@@ -56,6 +56,7 @@ class StatusView(viewsets.ModelViewSet):
         #scheduleEnd = Settings.objects.get(pk=1).EndSchedule
         messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
         messageOne.save()
+
         for resident in SchedulerUser.objects.all():
             if resident.AccessLevel != 'NA':
                 residents.append(resident.email) #for algorithm
@@ -66,27 +67,33 @@ class StatusView(viewsets.ModelViewSet):
                 weekTableRow.append(pgy)
                 for i in range(52):
                     weekTableRow.append('')
-                requests = ResidentRequests.objects.get(pk=resident.email)
-                requestOne = requests.requestOne
-                requestTwo = requests.requestTwo
-                requestThree = requests.requestThree
-                weekOfRequestOne = getWeekDelta(scheduleStart, requestOne)
-                keyOne = str(weekOfRequestOne)
-                weekOfRequestTwo = getWeekDelta(scheduleStart, requestTwo)
-                keyTwo = str(weekOfRequestTwo)
-                weekOfRequestThree = getWeekDelta(scheduleStart, requestThree)
-                keyThree = str(weekOfRequestThree)
-                resident.ResidentSchedule.update({keyOne: "VACATION"})
-                resident.save()
-                resident.ResidentSchedule.update({keyTwo: "VACATION"})
-                resident.save()
-                resident.ResidentSchedule.update({keyThree: "VACATION"})
-                resident.save()
-                weekTableRow[weekOfRequestOne + 2] = "VACATION"
-                weekTableRow[weekOfRequestTwo + 2] = "VACATION"
-                weekTableRow[weekOfRequestThree + 2] = "VACATION"
-                weekTable.append(weekTableRow)
-                unavailable.update({resident.email: [weekOfRequestOne, weekOfRequestTwo, weekOfRequestThree]}) #for algorithm
+                weekTable.append(weekTableRow) #for algorithm
+
+        for requests in ResidentRequests.objects.all():
+            resident = SchedulerUser.objects.get(email=requests.email)
+            userSchedule = []
+            residentFound = False
+            counter = -1
+            while not residentFound:
+                counter += 1
+                userSchedule = weekTable[counter]
+                residentFound = (str(userSchedule[0]) == str(requests.email))
+            requestOne = requests.requestOne
+            requestTwo = requests.requestTwo
+            requestThree = requests.requestThree
+            weekOfRequestOne = getWeekDelta(scheduleStart, requestOne)
+            weekOfRequestTwo = getWeekDelta(scheduleStart, requestTwo)
+            weekOfRequestThree = getWeekDelta(scheduleStart, requestThree)
+            resident.ResidentSchedule.update({weekOfRequestOne: "VACATION"})
+            resident.save()
+            resident.ResidentSchedule.update({weekOfRequestTwo: "VACATION"})
+            resident.save()
+            resident.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
+            resident.save()
+            userSchedule[weekOfRequestOne + 2] = "VACATION"
+            userSchedule[weekOfRequestTwo + 2] = "VACATION"
+            userSchedule[weekOfRequestThree + 2] = "VACATION"
+            unavailable.update({resident.email: [weekOfRequestOne, weekOfRequestTwo, weekOfRequestThree]}) #for algorithm
 
         messageTwo = AlgorithmStatus(Status='Resident black out dates now added')
         messageTwo.save()
@@ -106,18 +113,14 @@ class StatusView(viewsets.ModelViewSet):
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
                 pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
                 if startWeek <= currentWeek <= endWeek:
-                    
                     residentsNeeded = rotation.MinResident 
                     pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
-                #for algorithm
 
             # loop through all residents, ignoring those not availabvle
             # increasing pgyAvailable for each available residents
             # assumes weekTable only has residents and not chief residents
             for resident in range(len(weekTable)): #this basically is the equivalent of iterating through users
-
                 userSchedule = weekTable[resident]
-                #userEmail = userSchedule[0]
                 userPgy = userSchedule[1]
 
                 #add +2 because beginning elements are the user info
@@ -146,6 +149,8 @@ class StatusView(viewsets.ModelViewSet):
                 rotationType.update({rotation.RotationType: (rotation.Essential, rotation.Overnight)})
                 rotationWeeks.update({rotation.RotationType: [i for i in range(startWeek, endWeek + 1)]})
                 pgyRotation.update({rotation.RotationType: pgy})
+
+        # for error checking
         var1 = AlgorithmStatus(Status=str(weeks))
         var1.save()
         var2 = AlgorithmStatus(Status=str(residents))
@@ -180,7 +185,7 @@ class StatusView(viewsets.ModelViewSet):
                     # In every week, each rotation is assigned by min/max required residents
                     problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) >= rotationMinMax[rotation][0] #min
                     #print(str(rotation) + str(rotationMinMax[rotation][0]))
-                    #problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) <= rotationMinMax[rotation][1] #max
+                    problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) <= rotationMinMax[rotation][1] #max
                 #else:
                     #problem += pulp.lpSum(assignments[week, resident, rotation] for resident in residents) == 0
 
@@ -216,6 +221,8 @@ class StatusView(viewsets.ModelViewSet):
         #tempMessage = AlgorithmStatus(Status=str(pulp.listSolvers(onlyAvailable=True)))
         #tempMessage.save()
         problem.solve()
+        tempMessage = AlgorithmStatus(Status=str(pulp.LpStatus[problem.status]))
+        tempMessage.save()
 
         for week in range(weeks):
             #print(f"week {week}:")
