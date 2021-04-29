@@ -44,8 +44,8 @@ def getWeekDelta(startDate, endDate):
     difference = endDate - startDate
     delta = difference.days
 
-    weeks = math.ceil(delta / 7) #we use ceiling to round up all days ex: if delta = 10 that should be considered 2 weeks
-    return weeks
+    numberOfWeeks = math.ceil(delta / 7) #we use ceiling to round up all days ex: if delta = 10 that should be considered 2 weeks
+    return numberOfWeeks
 
 class StatusView(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
