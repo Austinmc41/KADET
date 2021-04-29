@@ -145,11 +145,11 @@ class StatusView(viewsets.ModelViewSet):
             message.save()
 
         # PuLP 'problem'
-        problem = pulp.LpProblem("resident scheduler", pulp.LpMaximize)
+        problem = pulp.LpProblem("resident_scheduler", pulp.LpMinimize)
 
         # PuLP variables
         assignments = pulp.LpVariable.dicts("Assignments", ((week, resident, rotation) for week in range(weeks) for resident in residents for rotation in rotations), cat="Binary")
-        is_assigned = pulp.LpVariable.dicts("Is Assigned", residents, cat="Binary")
+        is_assigned = pulp.LpVariable.dicts("Is_Assigned", residents, cat="Binary")
 
         # PuLP constraints
         for week in range(weeks):
