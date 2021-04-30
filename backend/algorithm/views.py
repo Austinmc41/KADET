@@ -160,31 +160,6 @@ class StatusView(viewsets.ModelViewSet):
                 rotationWeeks.update({rotation.RotationType: [i for i in range(startWeek, endWeek + 1)]})
                 pgyRotation.update({rotation.RotationType: pgy})
 
-        # for error checking
-        var1 = AlgorithmStatus(Status=str(weeks))
-        var1.save()
-        var2 = AlgorithmStatus(Status=str(residents))
-        var2.save()
-        var3 = AlgorithmStatus(Status=str(rotations))
-        var3.save()
-        var4 = AlgorithmStatus(Status=str(rotationMinMax))
-        var4.save()
-        #var5 = AlgorithmStatus(Status=str(rotationType))
-        #var5.save()
-        var5a = AlgorithmStatus(Status=str(essentialRotations))
-        var5a.save()
-        var5b = AlgorithmStatus(Status=str(overnightRotations))
-        var5b.save()
-        var5c = AlgorithmStatus(Status=str(otherRotations))
-        var5c.save()
-        var6 = AlgorithmStatus(Status=str(rotationWeeks))
-        var6.save()
-        var7 = AlgorithmStatus(Status=str(pgyRotation))
-        var7.save()
-        var8 = AlgorithmStatus(Status=str(pgyResident))
-        var8.save()
-        var9 = AlgorithmStatus(Status=str(unavailable))
-        var9.save()
 
         # PuLP 'problem'
         problem = pulp.LpProblem("resident_scheduler", pulp.LpMaximize)
@@ -292,25 +267,29 @@ class StatusView(viewsets.ModelViewSet):
 		
 		# Solve problem
         problem.solve()
-        pulpStatus = AlgorithmStatus(Status=str(pulp.LpStatus[problem.status]))
-        pulpStatus.save()
-
-        for week in range(weeks):
-            for resident in residents:
-                for rotation in essentialRotations:
-                    if week in rotationWeeks[rotation]:
-                        if pulp.value(essential[week, resident, rotation]) == 1:
-                            message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
-                            message.save()
-                for rotation in overnightRotations:
-                    if week in rotationWeeks[rotation]:
-                        if pulp.value(overnight[week, resident, rotation]) == 1:
-                            message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
-                            message.save()
-                for rotation in otherRotations:
-                    if week in rotationWeeks[rotation]:
-                        if pulp.value(other[week, resident, rotation]) == 1:
-                            message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
-                            message.save()
-						
+        outcome = str(pulp.LpStatus[problem.status])
+        pulpStatus = AlgorithmStatus(Status='')
+        if outcome == 'Optimal':
+            pulpStatus = AlgorithmStatus(Status='Algorithm succeeded in creating schedule')
+            pulpStatus.save()
+            for week in range(weeks):
+                for resident in residents:
+                    for rotation in essentialRotations:
+                        if week in rotationWeeks[rotation]:
+                            if pulp.value(essential[week, resident, rotation]) == 1:
+                                message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
+                                message.save()
+                    for rotation in overnightRotations:
+                        if week in rotationWeeks[rotation]:
+                            if pulp.value(overnight[week, resident, rotation]) == 1:
+                                message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
+                                message.save()
+                    for rotation in otherRotations:
+                        if week in rotationWeeks[rotation]:
+                            if pulp.value(other[week, resident, rotation]) == 1:
+                                message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
+                                message.save()
+        else:
+            pulpStatus = AlgorithmStatus(Status='Algorithm failed in creating schedule')
+            pulpStatus.save()
         return AlgorithmStatus.objects.all()
