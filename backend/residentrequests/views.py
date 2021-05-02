@@ -8,3 +8,5 @@ from .models import ResidentRequests
 class RequestsView(viewsets.ModelViewSet):
     serializer_class = RequestsSerializer
     queryset = ResidentRequests.objects.all()
+    lookup_field = "email"
+    lookup_value_regex = "[^/]+" 

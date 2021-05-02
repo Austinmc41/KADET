@@ -6,3 +6,4 @@ class RequestsSerializer(serializers.ModelSerializer):
         model = ResidentRequests 
         #fields = ['id', 'email', 'requestOne', 'requestTwo', 'requestThree']
         fields = '__all__'
+        lookup_field = "email"
