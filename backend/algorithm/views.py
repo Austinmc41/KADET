@@ -12,37 +12,6 @@ from useraccess.models import SchedulerUser
 from residentrequests.models import ResidentRequests
 from settings.models import Settings
 
-#to hold finished schedule
-global weekTable
-
-#information/constraints needed for scheduling algorithm
-global weeks
-global residents
-global rotations
-global rotationMinMax
-#global rotationType
-global essentialRotations
-global overnightRotations
-global otherRotations
-global rotationWeeks
-global pgyRotation
-global pgyResident
-global unavailable
-
-weeks = 52
-residents = []
-rotations = []
-rotationMinMax = {}
-#rotationType = {}
-essentialRotations = []
-overnightRotations = []
-otherRotations = []
-rotationWeeks = {}
-pgyRotation = {}
-pgyResident = {}
-unavailable = {}
-weekTable = []
-
 def getWeekDelta(startDate, endDate):
     #assume that every rotation and the schedule itself starts on Wednesday, per Chris
     #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
@@ -56,6 +25,23 @@ class StatusView(viewsets.ModelViewSet):
     serializer_class = StatusSerializer
 
     def get_queryset(self):
+
+        #information/constraints needed for scheduling algorithm
+        weeks = 52
+        residents = []
+        rotations = []
+        rotationMinMax = {}
+        essentialRotations = []
+        overnightRotations = []
+        otherRotations = []
+        rotationWeeks = {}
+        pgyRotation = {}
+        pgyResident = {}
+        unavailable = {}
+
+        #to hold finished schedule
+        weekTable = []
+
         AlgorithmStatus.objects.all().delete()
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
         messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
