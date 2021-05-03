@@ -39,7 +39,6 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "criteria", # added for this project
     "settings", # added for this project
-    "residentrequests", # added for this project
     "useraccess", # added for this project
     "vacation", # added for this project
     "schedule", # added for this project

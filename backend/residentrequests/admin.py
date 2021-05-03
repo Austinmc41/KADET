@@ -4,4 +4,4 @@ from .models import ResidentRequests
 # added for this project
 @admin.register(ResidentRequests)
 class RequestsAdmin(admin.ModelAdmin):  
-    list_display = ("email", "requestOne", "requestTwo", "requestThree", "ResidentSchedule")
+    list_display = ("email", "requestOne", "requestTwo", "requestThree")

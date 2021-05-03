@@ -9,7 +9,6 @@ import pulp
 import datetime
 from criteria.models import Criteria
 from useraccess.models import SchedulerUser
-from residentrequests.models import ResidentRequests
 from vacation.models import VacationRequests
 from schedule.models import Schedule
 from settings.models import Settings
@@ -45,7 +44,6 @@ class StatusView(viewsets.ModelViewSet):
         weekTable = []
 
         AlgorithmStatus.objects.all().delete()
-        ResidentRequests.objects.all().delete()
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
         messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
         messageOne.save()
