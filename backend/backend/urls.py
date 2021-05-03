@@ -21,6 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('criteria/', include('criteria.urls')),
     path('settings/', include('settings.urls')),
-    path('requests/', include('vacationrequests.urls')),
+    path('requests/', include('vacation.urls')),
     path('algorithm/', include('algorithm.urls')),
+    path('schedule/', include('schedule.urls')),
 ]

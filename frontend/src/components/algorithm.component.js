@@ -1,9 +1,5 @@
-import Accordion from 'react-bootstrap/Accordion';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import React, { Component } from "react";
-import Modal from "./algorithm.modal";
 import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -16,13 +12,8 @@ class Status extends Component {
       statusList: [],
       requestList: [],
       modal: false,
-      dictionaryKey: 0,
       activeItem: {
         Status: "",
-      },
-      activeDict: {},
-      activeResident: {
-        ResidentSchedule: {},
       },
     };
   }
@@ -55,7 +46,7 @@ class Status extends Component {
 
     if (item.email) {
       axios
-        .put(`/requests/api/${item.email}/`, item)
+        .put(`/requests/api/${item.id}/`, item)
         .then((res) => this.refreshSchedule());
       return;
     }
@@ -66,7 +57,7 @@ class Status extends Component {
 
   handleDelete = (item) => {
     axios
-      .delete(`/requests/api/${item.email}/`)
+      .delete(`/requests/api/${item.id}/`)
       .then((res) => this.refreshSchedule());
   };
 
@@ -78,10 +69,6 @@ class Status extends Component {
 
   editItem = (item) => {
     this.setState({ activeResident: item });
-  };
-
-  editElement = (element) => {
-    this.setState({ activeDict: element, modal: !this.state.modal });
   };
 
   renderStatus = () => {
@@ -111,16 +98,7 @@ class Status extends Component {
           </td>
           {Object.entries(item.ResidentSchedule).map( ([key, value]) => (
             <td key={key}>
-              <button
-                className="btn btn-info"
-                onClick={() => {
-                  this.setState({ dictionaryKey: key });
-                  this.editItem(item)
-                  this.editElement(item.ResidentSchedule)
-                }}
-              >
-                {value}
-              </button>
+              {value}
             </td>
           ))}
         </tr>
@@ -147,7 +125,6 @@ class Status extends Component {
               <ul className="list-group list-group-flush border-top-0">
                 {this.renderStatus()}
               </ul>
-              {this.state.dictionaryKey}
               <div>
                 <Table striped bordered hover>
                   <thead>
@@ -166,15 +143,6 @@ class Status extends Component {
             </div>
           </div>
         </div>
-        {this.state.modal ? (
-          <Modal
-            activeDict={this.state.activeDict}
-            activeResident={this.state.activeResident}
-            weekKey={this.state.dictionaryKey}
-            toggle={this.toggle}
-            onSave={this.handleSubmit}
-          />
-        ) : null}
       </main>
     );
   }
