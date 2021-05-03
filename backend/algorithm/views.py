@@ -2,7 +2,7 @@ from django.shortcuts import render
 
 # Create your views here.
 from rest_framework import viewsets
-from .serializers import StatusSerializer
+from .serializers import AlgorithmStatusSerializer
 from .models import AlgorithmStatus
 import math
 import pulp
@@ -22,8 +22,8 @@ def getWeekDelta(startDate, endDate):
     numberOfWeeks = math.floor(delta / 7) #we use floor to round down
     return numberOfWeeks
 
-class StatusView(viewsets.ModelViewSet):
-    serializer_class = StatusSerializer
+class AlgorithmStatusView(viewsets.ModelViewSet):
+    serializer_class = AlgorithmStatusSerializer
 
     def get_queryset(self):
 

@@ -23,5 +23,6 @@ urlpatterns = [
     path('settings/', include('settings.urls')),
     path('requests/', include('vacation.urls')),
     path('algorithm/', include('algorithm.urls')),
+    path('rotationcheck/', include('checkrotations.urls')),
     path('schedule/', include('schedule.urls')),
 ]

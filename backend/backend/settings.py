@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "vacation", # added for this project
     "schedule", # added for this project
     "algorithm", # added for this project
+    "checkrotations", # added for this project
     "rest_framework", # added for this project
     "corsheaders", # added for this project
 ]
