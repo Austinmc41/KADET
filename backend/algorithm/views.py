@@ -56,10 +56,15 @@ class StatusView(viewsets.ModelViewSet):
                 pgyResident.update({resident.email: pgy}) #for algorithm
                 weekTableRow.append(pgy)
                 for i in range(52):
-                    weekTableRow.append('')
+                    weekTableRow.append('available')
                 weekTable.append(weekTableRow) #for algorithm
 
         for requests in ResidentRequests.objects.all():
+
+            for week in range (weeks):
+                requests.ResidentSchedule.update({week: "available"})
+                requests.save()
+
             resident = SchedulerUser.objects.get(email=requests.email)
             userSchedule = []
             residentFound = False
@@ -80,6 +85,14 @@ class StatusView(viewsets.ModelViewSet):
             resident.save()
             resident.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
             resident.save()
+
+            requests.ResidentSchedule.update({weekOfRequestOne: "VACATION"})
+            requests.save()
+            requests.ResidentSchedule.update({weekOfRequestTwo: "VACATION"})
+            requests.save()
+            requests.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
+            requests.save()
+
             userSchedule[weekOfRequestOne + 2] = "VACATION"
             userSchedule[weekOfRequestTwo + 2] = "VACATION"
             userSchedule[weekOfRequestThree + 2] = "VACATION"
@@ -115,7 +128,7 @@ class StatusView(viewsets.ModelViewSet):
 
                 #add +2 because beginning elements are the user info
                 rotation = userSchedule[currentWeek + 2]
-                if rotation == '':
+                if rotation == 'available':
                     pgyAvailable[userPgy] += 1
 
             # loop through and compare pgyNeeded to pgyAvailable.

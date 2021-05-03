@@ -11,5 +11,7 @@ class ResidentRequests(models.Model):
     requestTwo = models.DateField(null=True, blank=True)
     requestThree = models.DateField(null=True, blank=True)
 
+    ResidentSchedule = models.JSONField(blank=True, null=True, default=dict)
+
     def __str__(self):
         return self.email

@@ -33,6 +33,15 @@ export default class CustomModal extends Component {
     const activeDict = { ...this.state.activeDict, [name]: value };
 
     this.setState({ activeDict });
+
+    this.setState({
+      activeResident: {
+        ResidentSchedule: {
+          ...this.state.ResidentSchedule,
+          [this.state.weekKey]: value
+        }
+      }
+     });
   };
 
   render() {

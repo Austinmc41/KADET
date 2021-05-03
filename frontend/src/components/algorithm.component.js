@@ -1,5 +1,9 @@
+import Accordion from 'react-bootstrap/Accordion';
+import Card from 'react-bootstrap/Card';
+import Button from 'react-bootstrap/Button';
+import Table from 'react-bootstrap/Table';
 import React, { Component } from "react";
-import Modal from "./settings.modal";
+import Modal from "./algorithm.modal";
 import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
@@ -10,21 +14,35 @@ class Status extends Component {
     super(props);
     this.state = {
       statusList: [],
+      requestList: [],
       modal: false,
+      dictionaryKey: 0,
       activeItem: {
         Status: "",
+      },
+      activeDict: {},
+      activeResident: {
+        ResidentSchedule: {},
       },
     };
   }
 
   componentDidMount() {
     this.refreshList();
+    this.refreshSchedule();
   }
 
   refreshList = () => {
     axios
       .get("/algorithm/api/")
       .then((res) => this.setState({ statusList: res.data }))
+      .catch((err) => console.log(err));
+  };
+
+  refreshSchedule = () => {
+    axios
+      .get("/requests/api/")
+      .then((res) => this.setState({ requestList: res.data }))
       .catch((err) => console.log(err));
   };
 
@@ -35,21 +53,21 @@ class Status extends Component {
   handleSubmit = (item) => {
     this.toggle();
 
-    if (item.id) {
+    if (item.email) {
       axios
-        .put(`/algorithm/api/${item.id}/`, item)
-        .then((res) => this.refreshList());
+        .put(`/requests/api/${item.email}/`, item)
+        .then((res) => this.refreshSchedule());
       return;
     }
     axios
-      .post("/algorithm/api/", item)
-      .then((res) => this.refreshList());
+      .post("/requests/api/", item)
+      .then((res) => this.refreshSchedule());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/algorithm/api/${item.id}/`)
-      .then((res) => this.refreshList());
+      .delete(`/requests/api/${item.email}/`)
+      .then((res) => this.refreshSchedule());
   };
 
   createItem = () => {
@@ -59,7 +77,11 @@ class Status extends Component {
   };
 
   editItem = (item) => {
-    this.setState({ activeItem: item, modal: !this.state.modal });
+    this.setState({ activeResident: item });
+  };
+
+  editElement = (element) => {
+    this.setState({ activeDict: element, modal: !this.state.modal });
   };
 
   renderStatus = () => {
@@ -80,23 +102,79 @@ class Status extends Component {
     ));
   };
 
+  renderRequests = () => {
+    const newItems = this.state.requestList;
+      return newItems.map((item) => (
+        <tr>
+          <td>
+            {item.email}
+          </td>
+          {Object.entries(item.ResidentSchedule).map( ([key, value]) => (
+            <td key={key}>
+              <button
+                className="btn btn-info"
+                onClick={() => {
+                  this.setState({ dictionaryKey: key });
+                  this.editItem(item)
+                  this.editElement(item.ResidentSchedule)
+                }}
+              >
+                {value}
+              </button>
+            </td>
+          ))}
+        </tr>
+      ));
+  };
+
   render() {
+    const tableHeader = () => {
+      let tableHeaderWeeks = [];
+      for (let week = 0; week < 52; week++) {
+        tableHeaderWeeks.push(<th>week_{week}</th>);
+      }
+      return tableHeaderWeeks;
+    };
+
     return (
-      <main className="container">
+      <main>
         <h3 className="text-center">Algorithm status</h3>
-        <div className="row">
-          <div className="col-md-6 col-sm-10 mx-auto p-0">
+        <div>
+          <div>
             <div className="card p-3">
               <div className="mb-4">
-
               </div>
-
               <ul className="list-group list-group-flush border-top-0">
                 {this.renderStatus()}
               </ul>
+              {this.state.dictionaryKey}
+              <div>
+                <Table striped bordered hover>
+                  <thead>
+                    <tr>
+                      <th>
+                        email
+                      </th>
+                      {tableHeader()}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {this.renderRequests()}
+                  </tbody>
+                </Table>
+              </div>
             </div>
           </div>
         </div>
+        {this.state.modal ? (
+          <Modal
+            activeDict={this.state.activeDict}
+            activeResident={this.state.activeResident}
+            weekKey={this.state.dictionaryKey}
+            toggle={this.toggle}
+            onSave={this.handleSubmit}
+          />
+        ) : null}
       </main>
     );
   }
