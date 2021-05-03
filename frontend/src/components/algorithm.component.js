@@ -20,7 +20,6 @@ class Status extends Component {
 
   componentDidMount() {
     this.refreshList();
-    this.refreshSchedule();
   }
 
   refreshList = () => {
@@ -89,21 +88,6 @@ class Status extends Component {
     ));
   };
 
-  renderRequests = () => {
-    const newItems = this.state.requestList;
-      return newItems.map((item) => (
-        <tr>
-          <td>
-            {item.email}
-          </td>
-          {Object.entries(item.ResidentSchedule).map( ([key, value]) => (
-            <td key={key}>
-              {value}
-            </td>
-          ))}
-        </tr>
-      ));
-  };
 
   render() {
     const tableHeader = () => {
@@ -126,19 +110,6 @@ class Status extends Component {
                 {this.renderStatus()}
               </ul>
               <div>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>
-                        email
-                      </th>
-                      {tableHeader()}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.renderRequests()}
-                  </tbody>
-                </Table>
               </div>
             </div>
           </div>

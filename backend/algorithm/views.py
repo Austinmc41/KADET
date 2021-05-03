@@ -10,6 +10,8 @@ import datetime
 from criteria.models import Criteria
 from useraccess.models import SchedulerUser
 from residentrequests.models import ResidentRequests
+from vacation.models import VacationRequests
+from schedule.models import Schedule
 from settings.models import Settings
 
 def getWeekDelta(startDate, endDate):
@@ -43,6 +45,7 @@ class StatusView(viewsets.ModelViewSet):
         weekTable = []
 
         AlgorithmStatus.objects.all().delete()
+        ResidentRequests.objects.all().delete()
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
         messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
         messageOne.save()
@@ -52,18 +55,18 @@ class StatusView(viewsets.ModelViewSet):
                 residents.append(resident.email) #for algorithm
                 weekTableRow = []
                 weekTableRow.append(resident.email)
-                pgy = int(str(resident.AccessLevel)[3])
+                pgy = int(resident.AccessLevel)
                 pgyResident.update({resident.email: pgy}) #for algorithm
                 weekTableRow.append(pgy)
                 for i in range(52):
                     weekTableRow.append('available')
                 weekTable.append(weekTableRow) #for algorithm
 
-        for requests in ResidentRequests.objects.all():
+        for requests in VacationRequests.objects.all():
 
-            for week in range (weeks):
-                requests.ResidentSchedule.update({week: "available"})
-                requests.save()
+            #for week in range (weeks):
+                #requests.ResidentSchedule.update({week: "available"})
+                #requests.save()
 
             resident = SchedulerUser.objects.get(email=requests.email)
             userSchedule = []
@@ -85,13 +88,6 @@ class StatusView(viewsets.ModelViewSet):
             resident.save()
             resident.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
             resident.save()
-
-            requests.ResidentSchedule.update({weekOfRequestOne: "VACATION"})
-            requests.save()
-            requests.ResidentSchedule.update({weekOfRequestTwo: "VACATION"})
-            requests.save()
-            requests.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
-            requests.save()
 
             userSchedule[weekOfRequestOne + 2] = "VACATION"
             userSchedule[weekOfRequestTwo + 2] = "VACATION"
