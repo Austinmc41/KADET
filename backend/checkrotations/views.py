@@ -1,8 +1,23 @@
 from django.shortcuts import render
-
+import math
+import datetime
 from rest_framework import viewsets
 from .serializers import RotationStatusSerializer
 from .models import RotationStatus
+from criteria.models import Criteria
+from useraccess.models import SchedulerUser
+from vacation.models import VacationRequests
+from schedule.models import Schedule
+from settings.models import Settings
+
+def getWeekDelta(startDate, endDate):
+    #assume that every rotation and the schedule itself starts on Wednesday, per Chris
+    #the idea is that both of these variables should be DateTimeField objects and we should be able to get the difference in days
+    difference = endDate - startDate
+    delta = difference.days
+
+    numberOfWeeks = math.floor(delta / 7) #we use floor to round down
+    return numberOfWeeks
 
 class RotationStatusView(viewsets.ModelViewSet):
     serializer_class = RotationStatusSerializer
@@ -22,7 +37,7 @@ class RotationStatusView(viewsets.ModelViewSet):
 
         RotationStatus.objects.all().delete()
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
-        messageOne = RotationStatus(Status='Adding resident requests to schedule')
+        messageOne = RotationStatus(Status='Status: Adding resident requests to schedule')
         messageOne.save()
 
         for resident in SchedulerUser.objects.all():
@@ -38,10 +53,23 @@ class RotationStatusView(viewsets.ModelViewSet):
         for requests in VacationRequests.objects.all():
 
             resident = SchedulerUser.objects.get(email=requests.email)
+            scheduleElement = None
+
+            if Schedule.objects.filter(email=requests.email).exists():
+                scheduleElement = Schedule.objects.get(email=requests.email)
+            else:
+                scheduleElement = Schedule(
+                    email = requests.email,
+                    name = resident.last_name + ", " + resident.first_name,
+                    postGradLevel = resident.AccessLevel,
+                    generatedSchedule = {},
+                    blackoutRotations = {},
+                    assignedRotations = {}
+                )
 
             for week in range (weeks): # clears resident's schedule
-                resident.ResidentSchedule.update({week: "available"})
-                requests.save()
+                scheduleElement.generatedSchedule.update({week: "available"})
+            scheduleElement.save()
 
             userSchedule = []
             residentFound = False
@@ -56,18 +84,19 @@ class RotationStatusView(viewsets.ModelViewSet):
             weekOfRequestOne = getWeekDelta(scheduleStart, requestOne)
             weekOfRequestTwo = getWeekDelta(scheduleStart, requestTwo)
             weekOfRequestThree = getWeekDelta(scheduleStart, requestThree)
-            resident.ResidentSchedule.update({weekOfRequestOne: "VACATION"})
-            resident.save()
-            resident.ResidentSchedule.update({weekOfRequestTwo: "VACATION"})
-            resident.save()
-            resident.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
-            resident.save()
+            scheduleElement.generatedSchedule.update({weekOfRequestOne: "VACATION"})
+            scheduleElement.generatedSchedule.update({weekOfRequestTwo: "VACATION"})
+            scheduleElement.generatedSchedule.update({weekOfRequestThree: "VACATION"})
+            scheduleElement.blackoutRotations.update({weekOfRequestOne: "VACATION"})
+            scheduleElement.blackoutRotations.update({weekOfRequestTwo: "VACATION"})
+            scheduleElement.blackoutRotations.update({weekOfRequestThree: "VACATION"})
+            scheduleElement.save()
 
             userSchedule[weekOfRequestOne + 2] = "VACATION"
             userSchedule[weekOfRequestTwo + 2] = "VACATION"
             userSchedule[weekOfRequestThree + 2] = "VACATION"
 
-        messageTwo = RotationStatus(Status='Resident black out dates now added')
+        messageTwo = RotationStatus(Status='Status: Resident blackout dates now added')
         messageTwo.save()
 
         errorCounter = 0
@@ -82,7 +111,7 @@ class RotationStatusView(viewsets.ModelViewSet):
             for rotation in Criteria.objects.all():
                 startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
-                pgy = int(resident.AccessLevel)
+                pgy = int(str(rotation.ResidentYear)[len(str(rotation.ResidentYear)) - 1])
                 if startWeek <= currentWeek <= endWeek:
                     residentsNeeded = rotation.MinResident 
                     pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
@@ -104,8 +133,12 @@ class RotationStatusView(viewsets.ModelViewSet):
                 if pgyNeeded[pgy] > pgyAvailable[pgy]:
                     errorCounter += 1
                     short = pgyNeeded[pgy] - pgyAvailable[pgy]
-                    message = RotationStatus(Status="For week " + str(currentWeek) + ", we are short " + str(short) + " residents of PGY" + str(pgy))
+                    message = RotationStatus(Status="Status: For week " + str(currentWeek) + ", we are short " + str(short) + " residents of PGY" + str(pgy))
                     message.save()
         if errorCounter == 0:
-            message = RotationStatus(Status="Resident availability check successful")
+            message = RotationStatus(Status="Status: Resident availability check successful")
             message.save()
+        else:
+            message = RotationStatus(Status="Status: Resident availability check failed")
+            message.save()
+        return RotationStatus.objects.all()

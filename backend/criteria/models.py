@@ -3,11 +3,11 @@ from django.db import models
 class Criteria(models.Model):
     YEAR_CHOICES = (
         ('NA', 'not applicable'),
-        ('PGY1', 'year 1 resident'),
-        ('PGY2', 'year 2 resident'),
-        ('PGY3', 'year 3 resident'),
-        ('PGY4', 'year 4 resident'),
-        ('PGY5', 'year 5 resident'),
+        ('1', 'PGY1'),
+        ('2', 'PGY2'),
+        ('3', 'PGY3'),
+        ('4', 'PGY4'),
+        ('5', 'PGY5'),
     )
     RotationType = models.CharField(max_length=120)
     StartRotation = models.DateField(null=True, blank=True)
@@ -17,7 +17,7 @@ class Criteria(models.Model):
     Overnight = models.BooleanField(default=False)
     Essential = models.BooleanField(default=False)
     ResidentYear = models.CharField(
-        max_length=5,
+        max_length=20,
         choices=YEAR_CHOICES,
         default=None,
     )

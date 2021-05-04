@@ -112,18 +112,18 @@ export default class CustomModal extends Component {
               </Col>
             </Row>
             <FormGroup>
-              <Label for="criteria-ResidentYear">Number of years resident has studied</Label>
+              <Label for="criteria-ResidentYear">Post graduate year level</Label>
               <Input
                 type="select"
                 id="criteria-ResidentYear"
                 name="ResidentYear"
                 value={this.state.activeItem.ResidentYear}
                 onChange={this.handleChange}>
-                  <option>PGY1</option>
-                  <option>PGY2</option>
-                  <option>PGY3</option>
-                  <option>PGY4</option>
-                  <option>PGY5</option>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
               </Input>
             </FormGroup>
             <FormGroup check>
