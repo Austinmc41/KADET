@@ -87,7 +87,7 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
         for rotation in Criteria.objects.all():
                 startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
-                pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
+                pgy = int(str(rotation.ResidentYear)[len(str(rotation.ResidentYear)) - 1]) #Force cast as int
                 rotations.append(rotation.RotationType)
                 rotationMinMax.update({rotation.RotationType: (rotation.MinResident, rotation.MaxResident)})
                 if rotation.Essential:
