@@ -45,20 +45,17 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
 
         AlgorithmStatus.objects.all().delete()
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
-        messageOne = AlgorithmStatus(Status='Adding resident requests to schedule')
-        messageOne.save()
 
-        for resident in SchedulerUser.objects.all():
-            if resident.AccessLevel != 'NA':
-                residents.append(resident.email) #for algorithm
-                weekTableRow = []
-                weekTableRow.append(resident.email)
-                pgy = int(resident.AccessLevel)
-                pgyResident.update({resident.email: pgy}) #for algorithm
-                weekTableRow.append(pgy)
-                for i in range(52):
-                    weekTableRow.append('available')
-                weekTable.append(weekTableRow) #for algorithm
+        for resident in Schedule.objects.all():
+            residents.append(resident.email) #for algorithm
+            weekTableRow = []
+            weekTableRow.append(resident.email)
+            pgy = int(resident.postGradLevel)
+            pgyResident.update({resident.email: pgy}) #for algorithm
+            weekTableRow.append(pgy)
+            for i in range(52):
+                weekTableRow.append('available')
+            weekTable.append(weekTableRow) #for algorithm
 
         for requests in VacationRequests.objects.all():
 
@@ -80,61 +77,11 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
             weekOfRequestOne = getWeekDelta(scheduleStart, requestOne)
             weekOfRequestTwo = getWeekDelta(scheduleStart, requestTwo)
             weekOfRequestThree = getWeekDelta(scheduleStart, requestThree)
-            resident.ResidentSchedule.update({weekOfRequestOne: "VACATION"})
-            resident.save()
-            resident.ResidentSchedule.update({weekOfRequestTwo: "VACATION"})
-            resident.save()
-            resident.ResidentSchedule.update({weekOfRequestThree: "VACATION"})
-            resident.save()
 
             userSchedule[weekOfRequestOne + 2] = "VACATION"
             userSchedule[weekOfRequestTwo + 2] = "VACATION"
             userSchedule[weekOfRequestThree + 2] = "VACATION"
             unavailable.update({resident.email: [weekOfRequestOne, weekOfRequestTwo, weekOfRequestThree]}) #for algorithm
-
-        messageTwo = AlgorithmStatus(Status='Resident black out dates now added')
-        messageTwo.save()
-
-        errorCounter = 0
-        #rotationCounter = 0
-        for currentWeek in range (52):
-
-            # will ignore element 0
-            pgyNeeded = [0] * 6
-            pgyAvailable = [0] * 6
-
-            # loop through all criteria/rotations, ignoring those not used in current week
-            # increasing pgyNeeded based on minimum required residents
-            for rotation in Criteria.objects.all():
-                startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
-                endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
-                pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
-                if startWeek <= currentWeek <= endWeek:
-                    residentsNeeded = rotation.MinResident 
-                    pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
-
-            # loop through all residents, ignoring those not availabvle
-            # increasing pgyAvailable for each available residents
-            # assumes weekTable only has residents and not chief residents
-            for resident in range(len(weekTable)): #this basically is the equivalent of iterating through users
-                userSchedule = weekTable[resident]
-                userPgy = userSchedule[1]
-
-                #add +2 because beginning elements are the user info
-                rotation = userSchedule[currentWeek + 2]
-                if rotation == 'available':
-                    pgyAvailable[userPgy] += 1
-
-            # loop through and compare pgyNeeded to pgyAvailable.
-            for pgy in range(1, 6):
-                if pgyNeeded[pgy] > pgyAvailable[pgy]:
-                    errorCounter += 1
-                    short = pgyNeeded[pgy] - pgyAvailable[pgy]
-                    message = AlgorithmStatus(Status="For week " + str(currentWeek) + ", we are short " + str(short) + " residents of PGY" + str(pgy))
-                    message.save()
-        if errorCounter == 0:
-            message = AlgorithmStatus(Status="Resident availability check successful")
-            message.save()
 
         #for algorithm
         for rotation in Criteria.objects.all():
@@ -143,7 +90,6 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
                 pgy = int(str(rotation.ResidentYear)[3]) #Force cast as int
                 rotations.append(rotation.RotationType)
                 rotationMinMax.update({rotation.RotationType: (rotation.MinResident, rotation.MaxResident)})
-                #rotationType.update({rotation.RotationType: (rotation.Essential, rotation.Overnight)})
                 if rotation.Essential:
                     essentialRotations.append(rotation.RotationType)
                 elif rotation.Overnight:
