@@ -63,6 +63,8 @@ class RotationStatusView(viewsets.ModelViewSet):
 
             for week in range (weeks): # clears resident's schedule in database
                 scheduleElement.generatedSchedule.update({week: "available"})
+                if week in scheduleElement.assignedRotations:
+                    scheduleElement.generatedSchedule.update({week: scheduleElement.generatedSchedule.pop(week)})
             scheduleElement.save()
 
             userSchedule = []

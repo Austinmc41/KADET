@@ -32,7 +32,7 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
         residents = []
         rotations = []
         rotationMinMax = {}
-        essentialRotations = []
+        essentialRotations = [] #that are not overnight rotations
         overnightRotations = []
         otherRotations = []
         rotationWeeks = {}
@@ -63,6 +63,7 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
                 else:
                     if resident.generatedSchedule.get(i) != "available":
                         other.append(i)
+                        resident.assignedRotations.update({i: resident.generatedSchedule.get(i)})
             weekTable.append(weekTableRow)
             if len(vacations) > 0:
                 unavailable.update({resident.email: vacations})
@@ -76,7 +77,8 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
                 rotations.append(rotation.RotationType)
                 rotationMinMax.update({rotation.RotationType: (rotation.MinResident, rotation.MaxResident)})
                 if rotation.Essential:
-                    essentialRotations.append(rotation.RotationType)
+                    if not rotation.Overnight: #to track essential rotations that are not also overnight
+                        essentialRotations.append(rotation.RotationType)
                 elif rotation.Overnight:
                     overnightRotations.append(rotation.RotationType)
                 else:
@@ -161,6 +163,18 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
                     if week in rotationWeeks[rotation]:
                         problem += other[week, resident, rotation] == 0
 
+        for resident, alreadyScheduled in assigned.items():
+            currentResident = Schedule.objects.get(email=resident)
+            for week in alreadyScheduled:
+                rotation = currentResident.assignedRotations.get(week)
+				# preassigned rotations
+                if rotation in essentialRotations:
+                    problem += essential[week, resident, rotation] == 1
+                elif rotation in overnightRotations:
+                    problem += overnight[week, resident, rotation] == 1
+                elif rotation in otherRotations:
+                    problem += other[week, resident, rotation] == 1
+
         for resident in residents:
             # residents only work one kind of shift
             for week in range(weeks):
@@ -201,16 +215,25 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
                     for rotation in essentialRotations:
                         if week in rotationWeeks[rotation]:
                             if pulp.value(essential[week, resident, rotation]) == 1:
+                                currentResident = Schedule.objects.get(email=resident)
+                                currentResident.generatedSchedule.update({week: rotation})
+                                currentResident.save()
                                 message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
                                 message.save()
                     for rotation in overnightRotations:
                         if week in rotationWeeks[rotation]:
                             if pulp.value(overnight[week, resident, rotation]) == 1:
+                                currentResident = Schedule.objects.get(email=resident)
+                                currentResident.generatedSchedule.update({week: rotation})
+                                currentResident.save()
                                 message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
                                 message.save()
                     for rotation in otherRotations:
                         if week in rotationWeeks[rotation]:
                             if pulp.value(other[week, resident, rotation]) == 1:
+                                currentResident = Schedule.objects.get(email=resident)
+                                currentResident.generatedSchedule.update({week: rotation})
+                                currentResident.save()
                                 message = AlgorithmStatus(Status="For week " + str(week) + ", " + str(resident) + " is assigned to " + str(rotation))
                                 message.save()
         else:
