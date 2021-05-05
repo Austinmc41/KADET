@@ -2,11 +2,11 @@ from django.db import models
 
 class Schedule(models.Model):
     PGY_CHOICES = (
-        (1, 'PGY1'),
-        (2, 'PGY2'),
-        (3, 'PGY3'),
-        (4, 'PGY4'),
-        (5, 'PGY5'),
+        ('1', 'PGY1'),
+        ('2', 'PGY2'),
+        ('3', 'PGY3'),
+        ('4', 'PGY4'),
+        ('5', 'PGY5'),
     )
 
     email = models.EmailField(max_length=254, unique=True)
