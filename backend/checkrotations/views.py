@@ -8,6 +8,7 @@ from criteria.models import Criteria
 from useraccess.models import SchedulerUser
 from vacation.models import VacationRequests
 from schedule.models import Schedule
+from schedule.models import RotationsByWeek
 from settings.models import Settings
 
 def getWeekDelta(startDate, endDate):
@@ -101,13 +102,31 @@ class RotationStatusView(viewsets.ModelViewSet):
 
             # loop through all criteria/rotations, ignoring those not used in current week
             # increasing pgyNeeded based on minimum required residents
+            rotationOnSchedule = None
             for rotation in Criteria.objects.all():
                 startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
                 pgy = int(str(rotation.ResidentYear)[len(str(rotation.ResidentYear)) - 1])
+                print(rotation.RotationType + ", " + str(startWeek) + ", " + str(currentWeek) + ", " + str(endWeek))
                 if startWeek <= currentWeek <= endWeek:
+                    #this section is for generating dropdown list for editing final schedules
+                    if RotationsByWeek.objects.filter(rotationWeek=currentWeek).exists():
+                        rotationOnSchedule = RotationsByWeek.objects.get(rotationWeek=currentWeek)
+                    else:
+                        rotationOnSchedule = RotationsByWeek(
+                            rotationWeek = currentWeek,
+                            availableRotations = []
+                        )
+                    rotationOnSchedule.availableRotations.append(rotation.RotationType)
+                    if rotationOnSchedule.availableRotations.count(rotation.RotationType) > 1:
+                        rotationOnSchedule.availableRotations.remove(rotation.RotationType)
+                    rotationOnSchedule.save()
                     residentsNeeded = rotation.MinResident 
                     pgyNeeded[pgy] = pgyNeeded[pgy] + residentsNeeded
+                else:
+                    if RotationsByWeek.objects.filter(rotationWeek=currentWeek).exists():
+                        rotationOnSchedule = RotationsByWeek.objects.get(rotationWeek=currentWeek)
+                        rotationOnSchedule.availableRotations.remove(rotation.RotationType)
 
             # loop through all residents, ignoring those not availabvle
             # increasing pgyAvailable for each available residents

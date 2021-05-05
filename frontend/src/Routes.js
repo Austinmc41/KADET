@@ -23,6 +23,7 @@ export default class Routes extends Component {
                     <Route path="/view_requests" component={ListRequests} />
                     <Route path="/check_availability" component={check_availability} />
                     <Route path="/algorithm" component={AlgorithmStatus} />
+                    <Route path="/pre_algorithm" component={PreSchedule} />
                     <Route path="/post_algorithm" component={GeneratedSchedule} />
                     <Route>
                         <NotFound />
