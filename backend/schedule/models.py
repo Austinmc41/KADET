@@ -1,5 +1,9 @@
 from django.db import models
 
+class RotationsByWeek(models.Model):
+    rotationWeek = models.PositiveIntegerField()
+    availableRotations = models.JSONField(blank=True, null=True, default=list)
+
 class Schedule(models.Model):
     PGY_CHOICES = (
         ('1', 'PGY1'),
