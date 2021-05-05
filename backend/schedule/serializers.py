@@ -5,7 +5,7 @@ from .models import RotationsByWeek
 class ScheduleSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Schedule 
-        fields = ['id', 'email', 'postGradLevel', 'generatedSchedule', 'blackoutRotations', 'assignedRotations']
+        fields = ['id', 'email', 'name', 'postGradLevel', 'generatedSchedule', 'blackoutRotations', 'assignedRotations']
 
 class RotationsByWeekSerializer(serializers.ModelSerializer): 
     class Meta: 

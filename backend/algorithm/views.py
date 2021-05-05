@@ -39,6 +39,7 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
         pgyRotation = {}
         pgyResident = {}
         unavailable = {}
+        assigned = {}
 
         #to hold finished schedule
         weekTable = []
@@ -47,43 +48,27 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
         scheduleStart = Settings.objects.get(pk=1).StartSchedule
 
         for resident in Schedule.objects.all():
-            residents.append(resident.email) #for algorithm
+            vacations = []
+            other = []
+            residents.append(resident.email) 
             weekTableRow = []
             weekTableRow.append(resident.email)
             pgy = int(resident.postGradLevel)
-            pgyResident.update({resident.email: pgy}) #for algorithm
+            pgyResident.update({resident.email: pgy}) 
             weekTableRow.append(pgy)
-            for i in range(52):
-                weekTableRow.append('available')
-            weekTable.append(weekTableRow) #for algorithm
+            for i in range(weeks):
+                weekTableRow.append(resident.generatedSchedule.get(i))
+                if resident.generatedSchedule.get(i) == "VACATION":
+                    vacations.append(i)
+                else:
+                    if resident.generatedSchedule.get(i) != "available":
+                        other.append(i)
+            weekTable.append(weekTableRow)
+            if len(vacations) > 0:
+                unavailable.update({resident.email: vacations})
+            if len(other) > 0:
+                assigned.update({resident.email: other}) 
 
-        for requests in VacationRequests.objects.all():
-
-            #for week in range (weeks):
-                #requests.ResidentSchedule.update({week: "available"})
-                #requests.save()
-
-            resident = SchedulerUser.objects.get(email=requests.email)
-            userSchedule = []
-            residentFound = False
-            counter = -1
-            while not residentFound:
-                counter += 1
-                userSchedule = weekTable[counter]
-                residentFound = (str(userSchedule[0]) == str(requests.email))
-            requestOne = requests.requestOne
-            requestTwo = requests.requestTwo
-            requestThree = requests.requestThree
-            weekOfRequestOne = getWeekDelta(scheduleStart, requestOne)
-            weekOfRequestTwo = getWeekDelta(scheduleStart, requestTwo)
-            weekOfRequestThree = getWeekDelta(scheduleStart, requestThree)
-
-            userSchedule[weekOfRequestOne + 2] = "VACATION"
-            userSchedule[weekOfRequestTwo + 2] = "VACATION"
-            userSchedule[weekOfRequestThree + 2] = "VACATION"
-            unavailable.update({resident.email: [weekOfRequestOne, weekOfRequestTwo, weekOfRequestThree]}) #for algorithm
-
-        #for algorithm
         for rotation in Criteria.objects.all():
                 startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)

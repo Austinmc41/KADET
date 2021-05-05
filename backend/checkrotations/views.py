@@ -126,7 +126,8 @@ class RotationStatusView(viewsets.ModelViewSet):
                 else:
                     if RotationsByWeek.objects.filter(rotationWeek=currentWeek).exists():
                         rotationOnSchedule = RotationsByWeek.objects.get(rotationWeek=currentWeek)
-                        rotationOnSchedule.availableRotations.remove(rotation.RotationType)
+                        if rotation.RotationType in rotationOnSchedule.availableRotations:
+                            rotationOnSchedule.availableRotations.remove(rotation.RotationType)
 
             # loop through all residents, ignoring those not availabvle
             # increasing pgyAvailable for each available residents

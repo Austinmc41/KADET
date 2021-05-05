@@ -85,6 +85,9 @@ class GeneratedSchedule extends Component {
             {item.email}
           </td>
           <td>
+            {item.name}
+          </td>
+          <td>
             {item.postGradLevel}
           </td>
           {Object.entries(item.generatedSchedule).map( ([key, value]) => (
@@ -118,27 +121,26 @@ class GeneratedSchedule extends Component {
       <main>
         <h3 className="text-center">Fully Generated Schedule</h3>
         <div>
-          <div>
-            <div className="card p-3">
-              <div className="mb-4">
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>
-                        email
-                      </th>
-                      <th>
-                        PGY
-                      </th>
-                      {tableHeader()}
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.renderRequests()}
-                  </tbody>
-                </Table>
-              </div>
-            </div>
+          <div className="mb-4">
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>
+                    email
+                  </th>
+                  <th>
+                    name
+                  </th>
+                  <th>
+                    PGY
+                  </th>
+                  {tableHeader()}
+                </tr>
+              </thead>
+              <tbody>
+                {this.renderRequests()}
+              </tbody>
+            </Table>
           </div>
         </div>
         {this.state.modal ? (
