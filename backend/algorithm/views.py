@@ -57,13 +57,14 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
             pgyResident.update({resident.email: pgy}) 
             weekTableRow.append(pgy)
             for i in range(weeks):
-                weekTableRow.append(resident.generatedSchedule.get(i))
-                if resident.generatedSchedule.get(i) == "VACATION":
+                weekTableRow.append(resident.generatedSchedule.get(str(i)))
+                if resident.generatedSchedule.get(str(i)) == "VACATION":
                     vacations.append(i)
                 else:
-                    if resident.generatedSchedule.get(i) != "available":
+                    if resident.generatedSchedule.get(str(i)) != "available":
                         other.append(i)
-                        resident.assignedRotations.update({i: resident.generatedSchedule.get(i)})
+                        resident.assignedRotations.update({i: resident.generatedSchedule.get(str(i))})
+                        resident.save()
             weekTable.append(weekTableRow)
             if len(vacations) > 0:
                 unavailable.update({resident.email: vacations})
@@ -166,7 +167,7 @@ class AlgorithmStatusView(viewsets.ModelViewSet):
         for resident, alreadyScheduled in assigned.items():
             currentResident = Schedule.objects.get(email=resident)
             for week in alreadyScheduled:
-                rotation = currentResident.assignedRotations.get(week)
+                rotation = currentResident.assignedRotations.get(str(week))
 				# preassigned rotations
                 if rotation in essentialRotations:
                     problem += essential[week, resident, rotation] == 1

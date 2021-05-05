@@ -63,8 +63,10 @@ class RotationStatusView(viewsets.ModelViewSet):
 
             for week in range (weeks): # clears resident's schedule in database
                 scheduleElement.generatedSchedule.update({week: "available"})
-                if week in scheduleElement.assignedRotations:
-                    scheduleElement.generatedSchedule.update({week: scheduleElement.generatedSchedule.pop(week)})
+                if str(week) in scheduleElement.assignedRotations:
+                    thisRotation = scheduleElement.assignedRotations.pop(str(week))
+                    if str(thisRotation) != "None":
+                        scheduleElement.generatedSchedule.update({week: thisRotation})
             scheduleElement.save()
 
             userSchedule = []
@@ -109,7 +111,7 @@ class RotationStatusView(viewsets.ModelViewSet):
                 startWeek = getWeekDelta(scheduleStart, rotation.StartRotation)
                 endWeek = getWeekDelta(scheduleStart, rotation.EndRotation)
                 pgy = int(str(rotation.ResidentYear)[len(str(rotation.ResidentYear)) - 1])
-                print(rotation.RotationType + ", " + str(startWeek) + ", " + str(currentWeek) + ", " + str(endWeek))
+                #print(rotation.RotationType + ", " + str(startWeek) + ", " + str(currentWeek) + ", " + str(endWeek))
                 if startWeek <= currentWeek <= endWeek:
                     #this section is for generating dropdown list for editing final schedules
                     if RotationsByWeek.objects.filter(rotationWeek=currentWeek).exists():
