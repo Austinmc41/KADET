@@ -121,6 +121,12 @@ if (something wrong) {
                       Maximum required number of residents: {item.MaxResident}
                     </span>
                     <span className="list-group-item border-0">
+                      Minimum required number of weeks to assign: {item.MinContinuedWeeks}
+                    </span>
+                    <span className="list-group-item border-0">
+                      Maximum required number of weeks to assign: {item.MaxContinuedWeeks}
+                    </span>
+                    <span className="list-group-item border-0">
                       Number of years in residency: {item.ResidentYear}
                     </span>
                   </div>

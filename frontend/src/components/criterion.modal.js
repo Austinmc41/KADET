@@ -111,6 +111,34 @@ export default class CustomModal extends Component {
                 </FormGroup>
               </Col>
             </Row>
+            <Row form>
+              <Col>
+                <FormGroup>
+                  <Label for="criteria-MinContinuedWeeks">Minumum continuous weeks</Label>
+                  <Input
+                    type="number"
+                    id="criteria-MinContinuedWeeks"
+                    name="MinContinuedWeeks"
+                    value={this.state.activeItem.MinContinuedWeeks}
+                    onChange={this.handleChange}
+                    placeholder="Enter number of weeks"
+                  />
+                </FormGroup>
+              </Col>
+              <Col>
+                <FormGroup>
+                  <Label for="criteria-MaxContinuedWeeks">Maximum continuous weeks</Label>
+                  <Input
+                    type="number"
+                    id="criteria-MaxContinuedWeeks"
+                    name="MaxContinuedWeeks"
+                    value={this.state.activeItem.MaxContinuedWeeks}
+                    onChange={this.handleChange}
+                    placeholder="Enter number of weeks"
+                  />
+                </FormGroup>
+              </Col>
+            </Row>
             <FormGroup>
               <Label for="criteria-ResidentYear">Post graduate year level</Label>
               <Input
