@@ -4,4 +4,4 @@ from .models import Criteria
 class CriteriaSerializer(serializers.ModelSerializer): 
     class Meta: 
         model = Criteria 
-        fields = ['id', 'RotationType', 'StartRotation', 'EndRotation', 'MinResident', 'MaxResident', 'ResidentYear', 'Essential', 'Overnight']
+        fields = ['id', 'RotationType', 'StartRotation', 'EndRotation', 'MinResident', 'MaxResident', 'MinContinuedWeeks', 'MaxContinuedWeeks', 'ResidentYear', 'Essential', 'Overnight']

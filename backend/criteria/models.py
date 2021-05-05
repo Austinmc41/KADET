@@ -14,6 +14,8 @@ class Criteria(models.Model):
     EndRotation = models.DateField(null=True, blank=True)
     MinResident = models.PositiveIntegerField()
     MaxResident = models.PositiveIntegerField()
+    MinContinuedWeeks = models.PositiveIntegerField()
+    MaxContinuedWeeks = models.PositiveIntegerField()
     Overnight = models.BooleanField(default=False)
     Essential = models.BooleanField(default=False)
     ResidentYear = models.CharField(
