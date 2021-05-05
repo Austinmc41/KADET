@@ -25,14 +25,6 @@ class RotationStatusView(viewsets.ModelViewSet):
     def get_queryset(self):
 
         weeks = 52
-        rotations = []
-        rotationMinMax = {}
-        essentialRotations = []
-        overnightRotations = []
-        otherRotations = []
-        rotationWeeks = {}
-        pgyRotation = {}
-
         weekTable = []
 
         RotationStatus.objects.all().delete()
@@ -41,6 +33,7 @@ class RotationStatusView(viewsets.ModelViewSet):
         messageOne.save()
 
         for resident in SchedulerUser.objects.all():
+            # clears resident's schedule for weekTable array
             if resident.AccessLevel != 'NA':
                 weekTableRow = []
                 weekTableRow.append(resident.email)
@@ -67,7 +60,7 @@ class RotationStatusView(viewsets.ModelViewSet):
                     assignedRotations = {}
                 )
 
-            for week in range (weeks): # clears resident's schedule
+            for week in range (weeks): # clears resident's schedule in database
                 scheduleElement.generatedSchedule.update({week: "available"})
             scheduleElement.save()
 

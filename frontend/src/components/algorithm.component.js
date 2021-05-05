@@ -1,16 +1,16 @@
-import Table from 'react-bootstrap/Table';
+import { Button } from 'react-bootstrap';
+import history from '../history';
 import React, { Component } from "react";
 import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-class Status extends Component {
+class AlgorithmStatus extends Component {
   constructor(props) {
     super(props);
     this.state = {
       statusList: [],
-      requestList: [],
       modal: false,
       activeItem: {
         Status: "",
@@ -29,13 +29,6 @@ class Status extends Component {
       .catch((err) => console.log(err));
   };
 
-  refreshSchedule = () => {
-    axios
-      .get("/requests/api/")
-      .then((res) => this.setState({ requestList: res.data }))
-      .catch((err) => console.log(err));
-  };
-
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
@@ -45,19 +38,19 @@ class Status extends Component {
 
     if (item.email) {
       axios
-        .put(`/requests/api/${item.id}/`, item)
-        .then((res) => this.refreshSchedule());
+        .put(`/algorithm/api/${item.id}/`, item)
+        .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/requests/api/", item)
-      .then((res) => this.refreshSchedule());
+      .post("/algorithm/api/", item)
+      .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/requests/api/${item.id}/`)
-      .then((res) => this.refreshSchedule());
+      .delete(`/algorithm/api/${item.id}/`)
+      .then((res) => this.refreshList());
   };
 
   createItem = () => {
@@ -67,7 +60,7 @@ class Status extends Component {
   };
 
   editItem = (item) => {
-    this.setState({ activeResident: item });
+    this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
   renderStatus = () => {
@@ -90,33 +83,25 @@ class Status extends Component {
 
 
   render() {
-    const tableHeader = () => {
-      let tableHeaderWeeks = [];
-      for (let week = 0; week < 52; week++) {
-        tableHeaderWeeks.push(<th>week_{week}</th>);
-      }
-      return tableHeaderWeeks;
-    };
-
     return (
-      <main>
-        <h3 className="text-center">Algorithm status</h3>
-        <div>
-          <div>
+      <main className="container">
+        <h3 className="text-center">Scheduling Algorithm Now Running</h3>
+		    <h5 className="text-center">(this may take several minutes, status will appear below when complete)</h5>
+        <div className="row">
+          <div className="col-md-6 col-sm-10 mx-auto p-0">
             <div className="card p-3">
-              <div className="mb-4">
-              </div>
-              <ul className="list-group list-group-flush border-top-0">
                 {this.renderStatus()}
-              </ul>
-              <div>
-              </div>
             </div>
           </div>
+        </div>
+        <div className="text-center">
+          <form>
+          <Button variant="btn btn-success" onClick={() => history.push('/post_algorithm')}>view generated schedule</Button>
+          </form>
         </div>
       </main>
     );
   }
 }
 
-export default Status;
+export default AlgorithmStatus;

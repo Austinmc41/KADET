@@ -11,7 +11,6 @@ class RotationStatus extends Component {
     super(props);
     this.state = {
       statusList: [],
-      requestList: [],
       modal: false,
       activeItem: {
         Status: "",
@@ -29,13 +28,6 @@ class RotationStatus extends Component {
       .catch((err) => console.log(err));
   };
 
-  refreshSchedule = () => {
-    axios
-      .get("/requests/api/")
-      .then((res) => this.setState({ requestList: res.data }))
-      .catch((err) => console.log(err));
-  };
-
   toggle = () => {
     this.setState({ modal: !this.state.modal });
   };
@@ -45,19 +37,19 @@ class RotationStatus extends Component {
 
     if (item.email) {
       axios
-        .put(`/requests/api/${item.id}/`, item)
-        .then((res) => this.refreshSchedule());
+        .put(`/rotationcheck/api/${item.id}/`, item)
+        .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/requests/api/", item)
-      .then((res) => this.refreshSchedule());
+      .post("/rotationcheck/api/", item)
+      .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/requests/api/${item.id}/`)
-      .then((res) => this.refreshSchedule());
+      .delete(`/rotationcheck/api/${item.id}/`)
+      .then((res) => this.refreshList());
   };
 
   createItem = () => {
@@ -67,7 +59,7 @@ class RotationStatus extends Component {
   };
 
   editItem = (item) => {
-    this.setState({ activeResident: item });
+    this.setState({ activeItem: item, modal: !this.state.modal });
   };
 
   renderStatus = () => {

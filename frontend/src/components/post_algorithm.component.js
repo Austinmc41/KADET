@@ -3,14 +3,13 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import Table from 'react-bootstrap/Table';
 import React, { Component } from "react";
-import history from '../history';
 import Modal from "./update_rotation.modal";
 import axios from "axios";
 
 axios.defaults.xsrfCookieName = 'csrftoken'
 axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 
-class PreSchedule extends Component {
+class GeneratedSchedule extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -117,15 +116,7 @@ class PreSchedule extends Component {
 
     return (
       <main>
-        <h3 className="text-center">Schedule of vacations</h3>
-        <p>
-          <h5 className="text-center">(when done editing schedule, run algorithm)</h5>
-          <div className="text-center">
-            <form>
-              <Button variant="btn btn-success" onClick={() => history.push('/algorithm')}>Run Algorithm</Button>
-            </form>
-          </div>
-        </p>
+        <h3 className="text-center">Fully Generated Schedule</h3>
         <div>
           <div>
             <div className="card p-3">
@@ -164,4 +155,4 @@ class PreSchedule extends Component {
   }
 }
 
-export default PreSchedule;
+export default GeneratedSchedule;
