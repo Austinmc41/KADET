@@ -9,8 +9,6 @@ import {
   FormGroup,
   Input,
   Label,
-  Row,
-  Col
 } from "reactstrap";
 
 export default class CustomModal extends Component {
@@ -26,35 +24,32 @@ export default class CustomModal extends Component {
   handleChange = (e) => {
     let { name, value } = e.target;
 
-    if (e.target.type === "checkbox") {
-      value = e.target.checked;
-    }
+    console.log('activeDict before: ' + JSON.stringify(this.state.activeDict))
 
     const activeDict = { ...this.state.activeDict, [name]: value };
 
+    console.log('activeDict after: ' + JSON.stringify(activeDict))
+
     this.setState({ activeDict });
 
-    this.setState({
+    this.setState(prevState => ({
       activeResident: {
-        ResidentSchedule: {
-          ...this.state.ResidentSchedule,
-          [this.state.weekKey]: value
-        }
+        ...prevState.activeResident,
+        generatedSchedule: activeDict
       }
-     });
+     }));
   };
 
   render() {
     const { toggle, onSave } = this.props;
-    const dictionaryKey = "ResidentSchedule[" + this.state.weekKey + "]"
 
     return (
       <Modal isOpen={true} toggle={toggle}>
-        <ModalHeader toggle={toggle}>Rotations -{this.state.weekKey}-</ModalHeader>
+        <ModalHeader toggle={toggle}>Rotations</ModalHeader>
         <ModalBody>
           <Form>
             <FormGroup>
-              <Label for="resident-rotation">Rotation</Label>
+              <Label for="resident-rotation">Assign Rotation</Label>
               <Input
                 type="select"
                 id="resident-rotation"

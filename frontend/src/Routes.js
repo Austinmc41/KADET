@@ -9,6 +9,7 @@ import NotFound from "./components/NotFound";
 import history from './history';
 import check_availability from "./components/check_availability";
 import Status from "./components/algorithm.component";
+import PreSchedule from "./components/pre_algorithm.component";
 
 export default class Routes extends Component {
     render() {
@@ -21,6 +22,7 @@ export default class Routes extends Component {
                     <Route path="/view_requests" component={ListRequests} />
                     <Route path="/check_availability" component={check_availability} />
                     <Route path="/algorithm" component={Status} />
+                    <Route path="/pre_algorithm" component={PreSchedule} />
                     <Route>
                         <NotFound />
                     </Route>

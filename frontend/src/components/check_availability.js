@@ -1,4 +1,5 @@
 import { Button } from 'react-bootstrap';
+import history from '../history';
 import React, { Component } from "react";
 import axios from "axios";
 
@@ -90,29 +91,29 @@ class RotationStatus extends Component {
 
   render() {
     return (
-        <main>
-            <div className="text-center">
-                <h3 className="text-center">Complete the pre-check before attempting to generate a schedule</h3>
-                <form>
-                    <Button variant="btn btn-success" onClick={() => this.refreshList()}>Run Availability Check</Button>
-                </form>
+      <main className="container">
+        <h3 className="text-center">Complete the pre-check before attempting to generate a schedule</h3>
+        <div className="text-center">
+          <form>
+            <Button variant="btn btn-success" onClick={() => this.refreshList()}>Run Availability Check</Button>
+          </form>
+        </div>
+        <div className="row">
+          <div className="col-md-6 col-sm-10 mx-auto p-0">
+            <div className="card p-3">
+                {this.renderStatus()}
             </div>
-            <div>
-                <div>
-                    <div className="card p-3">
-                        <div className="mb-4">
-                        </div>
-                        <ul className="list-group list-group-flush border-top-0">
-                            {this.renderStatus()}
-                        </ul>
-                        <div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+          </div>
+        </div>
+        <div className="text-center">
+          <form>
+          <Button variant="btn btn-success" onClick={() => history.push('/pre_algorithm')}>view schedule of vacations</Button>
+          </form>
+        </div>
+      </main>
     );
   }
+
 }
 
 export default RotationStatus;
