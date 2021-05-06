@@ -24,7 +24,7 @@ class AlgorithmStatus extends Component {
 
   refreshList = () => {
     axios
-      .get("/algorithm/api/")
+      .get("https://kadet0354.pythonanywhere.com/algorithm/api/")
       .then((res) => this.setState({ statusList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -38,18 +38,18 @@ class AlgorithmStatus extends Component {
 
     if (item.email) {
       axios
-        .put(`/algorithm/api/${item.id}/`, item)
+        .put(`https://kadet0354.pythonanywhere.com/algorithm/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/algorithm/api/", item)
+      .post("https://kadet0354.pythonanywhere.com/algorithm/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/algorithm/api/${item.id}/`)
+      .delete(`https://kadet0354.pythonanywhere.com/algorithm/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

@@ -20,7 +20,7 @@ class Schedule extends Component {
 
   refreshList = () => {
     axios
-      .get("/schedule/api/")
+      .get("https://kadet0354.pythonanywhere.com/schedule/api/")
       .then((res) => this.setState({ theSchedule: res.data }))
       .catch((err) => console.log(err));
   };
@@ -34,18 +34,18 @@ class Schedule extends Component {
 
     if (item.id) {
       axios
-        .put(`/schedule/api/${item.id}/`, item)
+        .put(`https://kadet0354.pythonanywhere.com/schedule/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("/schedule/api/", item)
+      .post("https://kadet0354.pythonanywhere.com/schedule/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/schedule/api/${item.id}/`)
+      .delete(`https://kadet0354.pythonanywhere.com/schedule/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

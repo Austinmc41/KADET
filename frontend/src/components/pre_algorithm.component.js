@@ -33,7 +33,7 @@ class PreSchedule extends Component {
 
   refreshSchedule = () => {
     axios
-      .get("/schedule/api/grid/")
+      .get("https://kadet0354.pythonanywhere.com/schedule/api/grid/")
       .then((res) => this.setState({ requestList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -48,19 +48,19 @@ class PreSchedule extends Component {
     if (item.id) {
       console.log('put attempt for ' + JSON.stringify(item))
       axios
-        .put(`/schedule/api/grid/${item.id}/`, item)
+        .put(`https://kadet0354.pythonanywhere.com/schedule/api/grid/${item.id}/`, item)
         .then((res) => this.refreshSchedule());
       return;
     }
     console.log('post attempt for ' + JSON.stringify(item))
     axios
-      .post("/schedule/api/grid/", item)
+      .post("https://kadet0354.pythonanywhere.com/schedule/api/grid/", item)
       .then((res) => this.refreshSchedule());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`/schedule/api/grid/${item.email}/`)
+      .delete(`https://kadet0354.pythonanywhere.com/schedule/api/grid/${item.email}/`)
       .then((res) => this.refreshSchedule());
   };
 

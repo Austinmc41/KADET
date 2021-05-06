@@ -32,7 +32,7 @@ export default class CustomModal extends Component {
 
   refreshList = () => {
     axios
-      .get("/schedule/api/drop_down/")
+      .get("https://kadet0354.pythonanywhere.com/schedule/api/drop_down/")
       .then((res) => this.setState({ dropDownList: res.data }))
       .catch((err) => console.log(err));
   };
