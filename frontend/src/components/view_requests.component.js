@@ -99,6 +99,12 @@ class Requests extends Component {
                 <Card.Body className="text-muted">
                   <div  className="list-group border-0">
                     <span className="list-group-item border-0">
+                      {item.last_name}, {item.first_name}
+                    </span>
+                    <span className="list-group-item border-0">
+                      PGY: {item.postGradLevel}
+                    </span>
+                    <span className="list-group-item border-0">
                       Request 1: {new Date(item.requestOne).toUTCString().slice(0,16)}
                     </span>
                     <span className="list-group-item border-0">
@@ -122,9 +128,15 @@ class Requests extends Component {
         <div className="row">
           <div className="col-md-8 col-sm-10 mx-auto p-0">
             <div className="card p-3">
-              <ul className="list-group list-group-flush border-top-0">
+              <div className="mb-4">
+                <button 
+                  className="btn btn-primary"
+                  onClick={this.createItem}
+                >
+                  Add resident request
+                </button>
+              </div>
                 {this.renderRequests()}
-              </ul>
             </div>
           </div>
         </div>

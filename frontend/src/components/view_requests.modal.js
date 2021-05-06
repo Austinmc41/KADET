@@ -54,7 +54,43 @@ export default class CustomModal extends Component {
                 placeholder="Enter email address"
               />
             </FormGroup>
-
+            <FormGroup>
+              <Label for="first-name">First name</Label>
+              <Input
+                type="text"
+                id="first-name"
+                name="first_name"
+                value={this.state.activeItem.first_name}
+                onChange={this.handleChange}
+                placeholder="Enter first name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="last-name">Last name</Label>
+              <Input
+                type="text"
+                id="last-name"
+                name="last_name"
+                value={this.state.activeItem.last_name}
+                onChange={this.handleChange}
+                placeholder="Enter last name"
+              />
+            </FormGroup>
+            <FormGroup>
+              <Label for="postGradLevel">Post graduate year level</Label>
+              <Input
+                type="select"
+                id="PGY"
+                name="postGradLevel"
+                value={this.state.activeItem.postGradLevel}
+                onChange={this.handleChange}>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+              </Input>
+            </FormGroup>
             <FormGroup>
               <Label for="first-request">Resident's first request</Label>
               <Input

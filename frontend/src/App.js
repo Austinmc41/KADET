@@ -13,7 +13,7 @@ const Navigation = (props) => {
                   <reactBootstrap.Nav.Link href="/">Home</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Settings">Settings</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/Rotations">Criteria</reactBootstrap.Nav.Link>
-                  <reactBootstrap.Nav.Link href="/view_requests">View Requests</reactBootstrap.Nav.Link>
+                  <reactBootstrap.Nav.Link href="/view_requests">Blackout Requests</reactBootstrap.Nav.Link>
                   <reactBootstrap.Nav.Link href="/check_availability">Check Availability</reactBootstrap.Nav.Link>
               </reactBootstrap.Nav>
           </reactBootstrap.Navbar.Collapse>
