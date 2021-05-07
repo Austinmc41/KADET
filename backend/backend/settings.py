@@ -129,5 +129,5 @@ STATIC_ROOT = "/home/kadet0354/kadetresidentproject/backend/static"
 
 AUTH_USER_MODEL = "useraccess.SchedulerUser" # Custom user model
 CORS_ORIGIN_WHITELIST = [
-    'localhost:3000'
+    'http://localhost:3000'
 ]
