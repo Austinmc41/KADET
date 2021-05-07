@@ -32,7 +32,7 @@ class GeneratedSchedule extends Component {
 
   refreshSchedule = () => {
     axios
-      .get("https://kadet0354.pythonanywhere.com/schedule/api/grid/")
+      .get("/schedule/api/grid/")
       .then((res) => this.setState({ requestList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -47,19 +47,19 @@ class GeneratedSchedule extends Component {
     if (item.id) {
       console.log('put attempt for ' + JSON.stringify(item))
       axios
-        .put(`https://kadet0354.pythonanywhere.com/schedule/api/grid/${item.id}/`, item)
+        .put(`/schedule/api/grid/${item.id}/`, item)
         .then((res) => this.refreshSchedule());
       return;
     }
     console.log('post attempt for ' + JSON.stringify(item))
     axios
-      .post("https://kadet0354.pythonanywhere.com/schedule/api/grid/", item)
+      .post("/schedule/api/grid/", item)
       .then((res) => this.refreshSchedule());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`https://kadet0354.pythonanywhere.com/schedule/api/grid/${item.email}/`)
+      .delete(`/schedule/api/grid/${item.email}/`)
       .then((res) => this.refreshSchedule());
   };
 

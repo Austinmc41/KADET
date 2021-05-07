@@ -25,7 +25,7 @@ class Settings extends Component {
 
   refreshList = () => {
     axios
-      .get("https://kadet0354.pythonanywhere.com/settings/api/")
+      .get("/settings/api/")
       .then((res) => this.setState({ settingsList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -39,18 +39,18 @@ class Settings extends Component {
 
     if (item.id) {
       axios
-        .put(`https://kadet0354.pythonanywhere.com/settings/api/${item.id}/`, item)
+        .put(`/settings/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("https://kadet0354.pythonanywhere.com/settings/api/", item)
+      .post("/settings/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`https://kadet0354.pythonanywhere.com/settings/api/${item.id}/`)
+      .delete(`/settings/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

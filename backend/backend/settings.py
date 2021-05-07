@@ -25,7 +25,7 @@ SECRET_KEY = "6ti5x&7psmbw6sb_9e2t3p_7a06%qk#(njn7($ng*iyoah!l3@"
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['kadet0354.pythonanywhere.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -129,5 +129,5 @@ STATIC_ROOT = "/home/kadet0354/kadetresidentproject/backend/static"
 
 AUTH_USER_MODEL = "useraccess.SchedulerUser" # Custom user model
 CORS_ORIGIN_WHITELIST = [
-    'https://residentscheduler.netlify.app'
+    'localhost:3000'
 ]

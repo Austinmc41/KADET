@@ -26,7 +26,7 @@ class Criteria extends Component {
 
   refreshList = () => {
     axios
-      .get("https://kadet0354.pythonanywhere.com/criteria/api/")
+      .get("/criteria/api/")
       .then((res) => this.setState({ criteriaList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -47,18 +47,18 @@ if (something wrong) {
 
     if (item.id) {
       axios
-        .put(`https://kadet0354.pythonanywhere.com/criteria/api/${item.id}/`, item)
+        .put(`/criteria/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("https://kadet0354.pythonanywhere.com/criteria/api/", item)
+      .post("/criteria/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`https://kadet0354.pythonanywhere.com/criteria/api/${item.id}/`)
+      .delete(`/criteria/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

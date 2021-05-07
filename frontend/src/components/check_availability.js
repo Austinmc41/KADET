@@ -23,7 +23,7 @@ class RotationStatus extends Component {
 
   refreshList = () => {
     axios
-      .get("https://kadet0354.pythonanywhere.com/rotationcheck/api/")
+      .get("/rotationcheck/api/")
       .then((res) => this.setState({ statusList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -37,18 +37,18 @@ class RotationStatus extends Component {
 
     if (item.email) {
       axios
-        .put(`https://kadet0354.pythonanywhere.com/rotationcheck/api/${item.id}/`, item)
+        .put(`/rotationcheck/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("https://kadet0354.pythonanywhere.com/rotationcheck/api/", item)
+      .post("/rotationcheck/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`https://kadet0354.pythonanywhere.com/rotationcheck/api/${item.id}/`)
+      .delete(`/rotationcheck/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 

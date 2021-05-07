@@ -23,7 +23,7 @@ class Requests extends Component {
 
   refreshList = () => {
     axios
-      .get("https://kadet0354.pythonanywhere.com/requests/api/")
+      .get("/requests/api/")
       .then((res) => this.setState({ requestList: res.data }))
       .catch((err) => console.log(err));
   };
@@ -37,18 +37,18 @@ class Requests extends Component {
 
     if (item.id) {
       axios
-        .put(`https://kadet0354.pythonanywhere.com/requests/api/${item.id}/`, item)
+        .put(`/requests/api/${item.id}/`, item)
         .then((res) => this.refreshList());
       return;
     }
     axios
-      .post("https://kadet0354.pythonanywhere.com/requests/api/", item)
+      .post("/requests/api/", item)
       .then((res) => this.refreshList());
   };
 
   handleDelete = (item) => {
     axios
-      .delete(`https://kadet0354.pythonanywhere.com/requests/api/${item.id}/`)
+      .delete(`/requests/api/${item.id}/`)
       .then((res) => this.refreshList());
   };
 
